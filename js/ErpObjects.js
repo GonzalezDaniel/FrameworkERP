@@ -3,7 +3,7 @@
 	var abstractCreateLock = false;
 
 
-	function Product(name, description, price){
+	function Product(name, price, description){
 		
 		if(abstractCreateLock){
 			throw new UninstantiatedObjectException("Product");
@@ -13,25 +13,18 @@
 			//throw next InvalidAccessConstructorException();
 		}
 
-		//Validacion de parametros
-		name = typeof name !== "undefined" ? name : "";
-		if(name === ""){throw new EmpyValueException("name");}
-
-		price = typeof price !== "undefined" ? price : "";
-		if(price === ""){throw new EmpyValueException("price");}
-
 		var _serialNumber = counter();
-		var _name = name;
+		var _name = validate.empty(name,"name");	
 		var _decription = description;
-		var _price = price;
+		var _price =validate.empty(price,"price");	
 
-		Object.defineProperty(this, serialNumber, {
+		Object.defineProperty(this, "serialNumber", {
 			get:function(){
 				return _serialNumber;
 			}
 		});
 
-		Object.defineProperty(this, name, {
+		Object.defineProperty(this, "name", {
 			get:function(){
 				return _name;
 			},
@@ -42,7 +35,7 @@
 			}
 		});
 
-		Object.defineProperty(this, price, {
+		Object.defineProperty(this, "price", {
 			get:function(){
 				return _price;
 			},
@@ -194,15 +187,9 @@ function Shop(cif, name, address, tel){
 	
 		if (!(this instanceof Shop)) 
 			throw new InvalidAccessConstructorException();
-	
-		cif = typeof cif !== "undefined" ? cif : "";
-		if (cif === "") {throw new EmptyValueException("cif");}
 
-		name = typeof name !== "undefined" ? name : "";
-		if (name === "") {throw new EmptyValueException("name");}	
-
-		var _cif = cif;	
-		var _name = name;
+		var _cif = validate.empty(cif,"cif");	
+		var _name = validate.empty(name,"name");	
 		var _address = address;
 		var _tel = tel;
 	
@@ -235,17 +222,19 @@ function Shop(cif, name, address, tel){
 
 //Clousure con un contador.
 var counter = (function (){
-	var counter = 0;
+	var counter = 100000000;
 	return (function (){
 		return ++counter;
 	})
 })();
 
+//Modulo para validar si un valor obligatorio esta vacio. si lo está, genera excepcion, si no, devuelve el valor.
 var validate = (function(){
 
 	var valueEmpty = function(value,type){
 		value = typeof value !== "undefined" ? value : "";
-	if (value === "") {throw new EmptyValueException(type);}
+		if (value === "") {throw new EmptyValueException(type);}
+		return value;
 	};
 
 	return{
