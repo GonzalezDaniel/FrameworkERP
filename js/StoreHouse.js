@@ -119,9 +119,10 @@ var StoreHouse = (function(){
             });
 
             this.addCategory = function(category){
-                if(!(category instanceof Category)){
-                    throw new CategoryStoreHouseException();
-                }
+                //Utilizamos una funcion para comprobar si category es una instancia de Category.
+                //La funcion se encuentra al final del fichero.
+                isCategory(category);
+
                 var position = getCategoryPosition(category);
                 if(position === -1){
                     _categories.push(
@@ -138,26 +139,30 @@ var StoreHouse = (function(){
 
             //Elimina una categoría pasando los productos a la categoria por defecto.
 			this.removeCategory = function(category){
-				if (!(category instanceof Category)) { 
-					throw new CategoryStoreHouseException();
-				}		
+
+                isCategory(category);
+                		
                 var position = getCategoryPosition(category);
+                var defaultPos = getCategoryPosition(_defaultCategory);
 				if (position !== -1){
 					if (category.title !== _defaultCategory.title){
-						_categories.splice(position, 1);
+                        //Utilizamos apply para pasar un array entero como parametro.
+                        //Filtramos el array de la categoria a eliminar para obtener un array que solamente contenga los elementos que no se encuentren en la categoria por defecto.
+                        //Añadimos el array de elementos nuevos a la categoria por defecto y eliminamos la categoria seleccionada.
+                        _categories[defaultPos].idProducts.push.apply( _categories[defaultPos].idProducts,  _categories[position].idProducts.filter(elem => notInArray(_categories[defaultPos].idProducts,elem)));
+                        _categories.splice(position, 1);
 					} else{
 						throw new DefaultCategoryStoreHouseException();
 					}					
 				} else{
 					throw new CategoryNotExistsStoreHouseException();
-				}	
+                }	
 				return _categories.length;
 			}
 
             this.getCategoryProducts = function(category, type){
-                if (!(category instanceof Category)) { 
-					throw new CategoryStoreHouseException();
-                }
+                isCategory(category);
+
                 var categoryPosition = getCategoryPosition(category); 
                 if (categoryPosition === -1){ throw new CategoryNotExistsStoreHouseException();}
                 var typeReceived = true;
@@ -206,15 +211,7 @@ var StoreHouse = (function(){
         }
 
             function getCategoryPosition(category){
-                if(!(category instanceof Category)){
-                    throw new CategoryStoreHouseException();
-                }
-
-                function compareElements(elem){
-                    return (elem.category.title === category.title);
-                }
-
-                return _categories.findIndex(compareElements);
+                return _categories.findIndex(elem => elem.category.title === category.title);
             }
 
             var _defaultCategory = new Category("Default category");
@@ -244,9 +241,7 @@ var StoreHouse = (function(){
             });
 
             this.addShop = function(shop){
-                if(!(shop instanceof Shop)){
-                    throw new ShopStoreHouseException();
-                }
+                isShop(shop);
                 var position = getShopPosition(shop);
                 if(position === -1){
                     _shops.push(
@@ -262,16 +257,36 @@ var StoreHouse = (function(){
             }
 
             function getShopPosition(shop){
-                if(!(shop instanceof Shop)){
-                    throw new ShopStoreHouseException();
-                }
+                isShop(shop);
 
-                function compareElements(elem){
-                    return (elem.shop.cif === shop.cif);
-                }
-
-                return _shops.findIndex(compareElements);
+                return _shops.findIndex(elem => elem.shop.cif === shop.cif);
             }
+
+            //Elimina una tienda pasando el stock de los productos a la tienda por defecto.
+            //El ERP esta diseñado de tal manera que la tienda por defecto siempre contiene al menos una unidad de cada producto existente, por tanto
+            //en lugar de añadir productos a la tienda por defecto al eliminar una tienda, se añade el stock de la tienda eliminada a la tienda por defecto. 
+			this.removeShop = function(shop){
+                isShop(shop);
+                		
+                var position = getShopPosition(shop);
+                var defaultPos = getShopPosition(_defaultShop);
+				if (position !== -1){
+					if (shop.cif !== _defaultShop.cif){
+                        _shops[position].sProducts.forEach(function(item){
+                            var prodPosition = getProductInShopPosition(_products[getProductById(item.idProduct)],_defaultShop);
+                            if(prodPosition !== -1){
+                                _shops[defaultPos].sProducts[prodPosition].stock += item.stock;
+                            }
+                        });
+                        _shops.splice(position, 1);
+					} else{
+						throw new DefaultShopStoreHouseException();
+					}					
+				} else{
+					throw new ShopNotExistsStoreHouseException();
+                }	
+				return _shops.length;
+			}
 
             var _defaultShop = new Shop( "00000001","Default shop");
             this.addShop(_defaultShop);
@@ -298,16 +313,16 @@ var StoreHouse = (function(){
                 }
             });
 
-            this.addProduct = function(product, category){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
+            this.addProduct = function(product, ...categories){
+                isProduct(product);
+                
+                if (categories.length === 0){
+					categories.push(this.defaultCategory);
                 }
-                if (category === null || category === undefined || category === ""){
-					category = this.defaultCategory;
-                }
-                if(!(category instanceof Category)){
-                    throw new CategoryStoreHouseException();
-                }
+
+                categories.forEach(function(value){
+                    isCategory(value);
+                });
                 
                 var shop = this.defaultShop;
                 var shopPosition = getShopPosition(shop);
@@ -315,15 +330,17 @@ var StoreHouse = (function(){
                 //Añadimos el producto en su array individual y recogemos su posicion.
                 var position = fAddProduct(product);
                
-                //Comprobamos que la categoria existe, si no, la añadimos.
-                var categoryPosition = getCategoryPosition(category); 
-				if (categoryPosition === -1){
+
+                categories.forEach(function(category){
+                    //Comprobamos que la categoria existe, si no, la añadimos.
+                    var categoryPosition = getCategoryPosition(category); 
+				    if (categoryPosition === -1){
 					categoryPosition = this.addCategory(category)-1;
-				}
-
-                //Añadimos a la categoria el numero de serie del producto.
-                _categories[categoryPosition].idProducts.push(product.serialNumber);
-
+                    }
+                    //Añadimos a la categoria el numero de serie del producto.
+                    _categories[categoryPosition].idProducts.push(product.serialNumber);
+                });
+                
                 //Dado que se pide que cada producto pertenezca al menos a una tienda, y desde esta 
                 //funcion no se especifica la misma, añadiremos el producto a la tienda por defecto
                 //con un stock de 1 unidad.
@@ -332,18 +349,13 @@ var StoreHouse = (function(){
                         idProduct: product.serialNumber,
                         stock: 1
                     });
-
                 return _products.length;
             }
 
             //Añadimos un producto ya creado a una tienda y su stock.
             this.addProductInShop = function(product, shop, stock){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
-                }
-                if(!(shop instanceof Shop)){
-                    throw new ShopStoreHouseException();
-                }
+                isProduct(product);
+                isShop(shop);
 
                 if (stock === null || stock === "undefined" || stock === ""){
 					stock = 1;
@@ -373,12 +385,8 @@ var StoreHouse = (function(){
             }
 
             this.addQuantityProductInShop = function(product, shop, stock){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
-                }
-                if(!(shop instanceof Shop)){
-                    throw new ShopStoreHouseException();
-                }
+                isProduct(product);
+                isShop(shop);
 
                 if (stock === null || stock === "undefined" || stock === ""){
 					stock = 1;
@@ -403,9 +411,8 @@ var StoreHouse = (function(){
             }
 
             this.getShopProducts = function(shop, type){
-                if (!(shop instanceof Shop)) { 
-					throw new ShopStoreHouseException();
-                }
+                isShop(shop);
+
                 var shopPosition = getShopPosition(shop); 
                 if (shopPosition === -1){ throw new ShopNotExistsStoreHouseException();}
 
@@ -451,9 +458,33 @@ var StoreHouse = (function(){
                                 return {done: true};
                         }
 
+                    }
                 }
             }
-        }
+
+            //Elimina un producto junto con todas sus relaciones con los demas objetos.
+			this.removeProduct = function(product){
+                isProduct(product);
+
+                var position = getProductPosition(product);
+                var prodInShopPos = -1;
+                var prodInCatPos = -1;
+
+                _shops.forEach(function(shop){
+                    prodInShopPos = getProductInShopPosition(product,shop.shop);
+                    if(prodInShopPos != -1){
+                        shop.sProducts.splice(prodInShopPos, 1);
+                    }
+                });
+
+                _categories.forEach(function(cat){
+                    prodInCatPos = cat.idProducts.findIndex(elem => elem === product.serialNumber);
+                    if(prodInCatPos != -1){
+                        cat.idProducts.splice(prodInCatPos, 1);
+                    }
+                });
+				return _products.length;
+			}
 
             function fAddProduct(product){
                 //Comprobamos si el producto existe, si no, lo añadimos.
@@ -468,9 +499,7 @@ var StoreHouse = (function(){
             }
             
             function getStock(product){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
-                }
+                isProduct(product);
 
                 var index = 0;
                 var totalStock = 0;
@@ -486,32 +515,19 @@ var StoreHouse = (function(){
             }
 
             function getProductPosition(product){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
-                }
+                isProduct(product);
 
-                function compareElements(elem){
-                    return (elem.serialNumber === product.serialNumber);
-                }
-
-                return _products.findIndex(compareElements);
+                return _products.findIndex(elem => elem.serialNumber === product.serialNumber);
             }
 
             function getProductById(id){
-                function compareElements(elem){
-                    return (elem.serialNumber === id);
-                }
-
-                return _products.findIndex(compareElements);
+                return _products.findIndex(elem => elem.serialNumber === id);
             }
 
             function getProductInShopPosition(product, shop){
-                if(!(product instanceof Product)){
-                    throw new ProductStoreHouseException();
-                }
-                if(!(shop instanceof Shop)){
-                    throw new ShopStoreHouseException();
-                }
+                isProduct(product);
+                isShop(shop);
+
                 var shopPosition = getShopPosition(shop);
                 function compareElements(elem){
                     return (elem.idProduct === product.serialNumber);  
@@ -519,6 +535,33 @@ var StoreHouse = (function(){
 
                 return _shops[shopPosition].sProducts.findIndex(compareElements);
             }
+
+            //Funciones utilizadas en varios objetos
+            
+            function isProduct(product){
+                if(!(product instanceof Product)){
+                    throw new ProductStoreHouseException();
+                }
+            };
+
+            function isCategory(category){
+                if(!(category instanceof Category)){
+                    throw new CategoryStoreHouseException();
+                }
+            };
+
+            function isShop(shop){
+                if(!(shop instanceof Shop)){
+                    throw new ShopStoreHouseException();
+                }
+            }
+
+            //Comprueba si un elemento existe dentro de un array, si no existe lo devuelve, si existe no devuelve nada
+            function notInArray(arr1, val1){
+                if(arr1.every(elem => elem !== val1)){
+                    return val1;
+                }
+            };
 
         }
         StoreHouse.prototype={};

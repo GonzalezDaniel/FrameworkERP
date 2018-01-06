@@ -15,3 +15,11 @@ Versión entregada en la Práctica UT04.2. Faltan por terminar:
 - Optimizar el codigo.
 Se entrega incompleto para no exceder la fecha limite de entrega. 
 Se completará en las siguientes semanas a fin de que esté listo para las proximas entregas que dependan de este código base.
+
+versión 1.0.2
+Versión terminada de la Práctica UT04.2. Se han realizado los siguientes cambios:
+-Añadida la eliminacion de categorias, tiendas y productos, asi como sus relaciones entre ellos.
+-Añadidas propiedades específicas a cada producto heredado de Product.
+-Añadido el array de imágenes a los productos.
+-Se implementan las validaciones de categorias, tiendas y productos en funciones para evitar repetir código.
+-Se implementan algunas funciones existentes en la versión anterior como funciones flecha.

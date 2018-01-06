@@ -3,20 +3,25 @@
 	var abstractCreateLock = false;
 
 
-	function Product(name, price, description){
+	function Product(name, price, description, tax){
 		
 		if(abstractCreateLock){
 			throw new UninstantiatedObjectException("Product");
 		}
 
 		if(!(this instanceof Product)){
-			//throw next InvalidAccessConstructorException();
+			throw new InvalidAccessConstructorException();
 		}
+
+		tax = typeof tax !== 'undefined' ? tax : Product.IVA;
 
 		var _serialNumber = counter();
 		var _name = validate.empty(name,"name");	
 		var _decription = description;
 		var _price =validate.empty(price,"price");	
+		var _tax = tax ;
+		var _images = [];
+
 
 		Object.defineProperty(this, "serialNumber", {
 			get:function(){
@@ -29,9 +34,7 @@
 				return _name;
 			},
 			set:function(value){
-				value = typeof value !== "undefined" ? value : "";
-				if(value === ""){throw new EmpyValueException("name");}
-				_name = value;
+				_name = validate.empty(value,"name");
 			}
 		});
 
@@ -40,9 +43,32 @@
 				return _price;
 			},
 			set:function(value){
-				value = typeof value !== "undefined" ? value : "";
-				if(value === ""){throw new EmpyValueException("price");}
-				_price = value;
+				_price = validate.empty(value,"price");
+			}
+		});
+
+		Object.defineProperty(this, "description", {
+			get:function(){
+				return _description;
+			},
+			set:function(value){
+				//descripcion puede estar vacio.
+				_description = value;
+			}
+		});
+
+		//Se deja la estructura implementada pero aun no es funcional, dado que todavia no sabemos
+		//como se guardarán las imagenes en el array(una url, un objeto embebido, por referencia...)
+		Object.defineProperty(this, "images", {
+			get:function(){
+				var nextIndex = 0;
+				return{
+					next: function(){
+						return nextIndex < _images.length ? 
+						{value: _images[nextIndex++].img, done:false} :
+						{done:true};
+					}
+				}
 			}
 		});
 
@@ -52,13 +78,31 @@
 	
 	Product.prototype = {};
 	Product.prototype.constructor = Product;
+	Object.defineProperty(Product, 'IVA', {
+		value:21,
+		writable:false,
+		enumerable:true,
+		configurable:false
+});
 
 	//Objeto Smartphone
 
-	function Smartphone(name, description, price){
+	function Smartphone(name, price, description, tax, size){
 		abstractCreateLock = false;
-		Product.call(this, name, description, price);
+		Product.call(this, name, price, description, tax);
 		abstractCreateLock = true;
+
+		var _screenSize = size;
+
+
+		Object.defineProperty(this, "screenSize", {
+			get:function(){
+				return _screenSize;
+			},
+			set:function(value){
+				_screenSize = value;
+			}
+		});
 
 	}
 	Smartphone.prototype = Object.create(Product.prototype);
@@ -66,10 +110,22 @@
 
 	//Objeto Guitarra
 
-	function Guitarra(name, description, price){
+	function Guitarra(name, price, description, tax, type){
 		abstractCreateLock = false;
-		Product.call(this, name, description, price);
+		Product.call(this, name, price, description, tax);
 		abstractCreateLock = true;
+
+		var _type = type;
+
+
+		Object.defineProperty(this, "type", {
+			get:function(){
+				return _type;
+			},
+			set:function(value){
+				_type = value;
+			}
+		});
 
 	}
 	Guitarra.prototype = Object.create(Product.prototype);
@@ -77,11 +133,22 @@
 
 	//Objeto Libro
 
-	function Libro(name, description, price){
+	function Libro(name, price, description, tax, genre){
 		abstractCreateLock = false;
-		Product.call(this, name, description, price);
+		Product.call(this, name, price, description, tax);
 		abstractCreateLock = true;
 
+		var _genre = genre;
+
+
+		Object.defineProperty(this, "genre", {
+			get:function(){
+				return _genre;
+			},
+			set:function(value){
+				_genre = value;
+			}
+		});
 	}
 	Libro.prototype = Object.create(Product.prototype);
 	Libro.prototype.constructor = Libro;
@@ -147,10 +214,6 @@ function Category(title){
 	if (!(this instanceof Category)) 
 		throw new InvalidAccessConstructorException();
 
-	/*title = typeof title !== "undefined" ? title : "";
-	if (title === "") {throw new EmptyValueException("title");}			*/
-
-
 	var _title = validate.empty(title,"title");	
 	var _description = "";
 
@@ -192,7 +255,8 @@ function Shop(cif, name, address, tel){
 		var _name = validate.empty(name,"name");	
 		var _address = address;
 		var _tel = tel;
-	
+		var _coords = null;
+
 		Object.defineProperty(this, "cif", {
 			get:function(){
 				return _cif;
@@ -213,8 +277,18 @@ function Shop(cif, name, address, tel){
 				if (value === "") {throw new EmptyValueException("description");}			
 				_name = value;
 			}		
-		});			
-		
+		});	
+				
+		Object.defineProperty(this, 'coords', {
+			get:function(){
+				return _coords;
+			},
+			set:function(value){
+				if (value === 'undefined' || value == null) throw new EmptyValueException("coords");	
+				if (!value instanceof Coords) throw new InvalidValueException("coords", value);		
+				_coords = value;
+			}		
+		});		
 	
 	}
 	Shop.prototype = {};

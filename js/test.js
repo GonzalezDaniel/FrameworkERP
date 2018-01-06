@@ -89,12 +89,14 @@ function testStoreHouse(){
 	//Creamos productos
 	var s1 = new Smartphone("Xiaomi",100);
 	var s2 = new Smartphone("Smamsung",350);
+	var s3 = new Smartphone("iPhone",2000000000);
 
 	var g1 = new Guitarra("Fender",300);
 	var g2 = new Guitarra("Gibson",500);
-
+	var g3 = new Guitarra("Ibanez",600);
+	
 	var l1 = new Libro("Harry Potter 1",15);
-	var l2 = new Libro("Harry Potter 2",25);
+	var l2 = new Libro("Juan Potter 2",25);
 
 	//Creamos la instancia de store house
 	console.log ("##### Testeo StoreHouse. ##### ");
@@ -115,19 +117,22 @@ function testStoreHouse(){
 	//Añadimos productos
 	console.log("Numero de productos: "+store.addProduct(s1,cat1));
 	console.log("Numero de productos: "+store.addProduct(s2));
-	console.log("Numero de productos: "+store.addProduct(g1 ,cat2));
+	console.log("Numero de productos: "+store.addProduct(s3,cat1));
+	console.log("Numero de productos: "+store.addProduct(g1 ,cat2, cat1));
 	console.log("Numero de productos: "+store.addProduct(g2));
+	console.log("Numero de productos: "+store.addProduct(g3 ,cat2));
 	console.log("Numero de productos: "+store.addProduct(l1, cat3));
 	console.log("Numero de productos: "+store.addProduct(l2));
 	console.log("");
-
+	
 	//Añadimos stock de un producto a una tienda
 	console.log("Añadimos stock a una tienda: "+store.addProductInShop(s1,t2,5));
 	console.log("Añadimos stock a una tienda: "+store.addProductInShop(l1,t2,10));
 	console.log("Añadimos stock a una tienda: "+store.addProductInShop(s1,t1,15));
 	console.log("");
-
 	
+	
+
 	showCategories();
 	showShops();
 	showProductsByCategory(store.defaultCategory);
@@ -137,12 +142,34 @@ function testStoreHouse(){
 	showProductsByCategory(cat1,Smartphone, "Smartphone");
 	showProductsByCategory(store.defaultCategory,Libro, "Libro");
 
+	//Eliminamos productos
+	console.log("##### Eliminamos el producto xiaomi. #####");
+	store.removeProduct(s1);
+
+	//Eliminamos la categoria electronica:
+	console.log("##### Eliminamos las categorias electronica y musica. #####");
+	store.removeCategory(cat1);
+	store.removeCategory(cat2);
+
+	showProductsByCategory(store.defaultCategory);
+	showCategories();
+
 	showProductsByShop(store.defaultShop);
 	showProductsByShop(t1);
 	showProductsByShop(t2);
 	showProductsByShop(t2, Smartphone, "Smartphone");
 	showProductsByShop(t3, Guitarra , "Guitarra");
 	
+	//Eliminamos Amazon
+	store.removeShop(t1);
+
+	showProductsByShop(store.defaultShop);
+
+	store.removeShop(t2);
+
+	showProductsByShop(store.defaultShop);
+
+
 } 
 window.onload = testStoreHouse;
 
