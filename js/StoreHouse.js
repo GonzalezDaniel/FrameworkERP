@@ -462,6 +462,63 @@ var StoreHouse = (function(){
                 }
             }
 
+            
+
+            this.getCategoriesInShop = function(shop){
+                var shopPosition = getShopPosition(shop);
+                var catInShop = [];
+
+                _categories.forEach(function(cat){
+                        _shops[shopPosition].sProducts.forEach(
+                            function(prod){
+                            if(cat.idProducts.includes(prod.idProduct)){
+                                if(notInArray(catInShop, cat.category)){
+                                    catInShop.push(cat.category);
+                                }
+                            }
+                        }) }
+                    
+                );
+
+                var nextIndex = 0;
+                return{
+                    next: function(){
+                        return nextIndex < catInShop.length ? 
+                        {value: catInShop[nextIndex++], done: false} :
+                        {done: true};
+                    }
+                }
+            }
+
+            this.getProductsInShopCategory = function(shop, category){
+                
+                isCategory(category);
+                var shopPosition = getShopPosition(shop);
+                var catPosition = getCategoryPosition(category);
+                var prodInShopCat = [];
+                var product;
+
+                        _shops[shopPosition].sProducts.forEach(
+                            
+                            function(prod){
+                            if(_categories[catPosition].idProducts.includes(prod.idProduct)){
+                                product = _products[getProductById(prod.idProduct)];
+                                if(notInArray(prodInShopCat, product)){
+                                    prodInShopCat.push(product);
+                                }
+                            }
+                        });
+
+                var nextIndex = 0;
+                return{
+                    next: function(){
+                        return nextIndex < prodInShopCat.length ? 
+                        {value: prodInShopCat[nextIndex++], done: false} :
+                        {done: true};
+                    }
+                }
+            }
+
             //Elimina un producto junto con todas sus relaciones con los demas objetos.
 			this.removeProduct = function(product){
                 isProduct(product);
@@ -560,6 +617,12 @@ var StoreHouse = (function(){
             function notInArray(arr1, val1){
                 if(arr1.every(elem => elem !== val1)){
                     return val1;
+                }
+            };
+
+            function isInArray(arr1, val1){
+                if(!(arr1.every(elem => elem !== val1))){
+                    return true;
                 }
             };
 

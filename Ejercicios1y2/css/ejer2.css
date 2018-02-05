@@ -1,0 +1,31 @@
+ nav ul {
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+}
+
+nav>ul>li {
+	float: left;
+}
+
+nav ul li {
+	list-style-type: none;
+	margin: 0px 0px 0px 0.0625em;
+}
+
+nav ul li a {
+	display: block;
+	background-color: #353535;
+	color: #FFF;
+	text-transform: uppercase;
+	padding: 0.5em 0.3125em 1.125em 0.3125em;
+	border-top-width: 6px;
+    border-top-style: solid;
+    text-decoration: none;
+}
+
+nav ul>li>ul  {
+    display: none;
+}

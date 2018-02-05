@@ -3,7 +3,7 @@
 	var abstractCreateLock = false;
 
 
-	function Product(name, price, description, tax){
+	function Product(name, price, description, img, tax, ){
 		
 		if(abstractCreateLock){
 			throw new UninstantiatedObjectException("Product");
@@ -17,10 +17,12 @@
 
 		var _serialNumber = counter();
 		var _name = validate.empty(name,"name");	
-		var _decription = description;
+		var _description = description;
 		var _price =validate.empty(price,"price");	
 		var _tax = tax ;
-		var _images = [];
+		//temporal
+		var _image = img;
+		//var _images = [];
 
 
 		Object.defineProperty(this, "serialNumber", {
@@ -57,9 +59,19 @@
 			}
 		});
 
+		//temporal
+		Object.defineProperty(this, "images", {
+			get:function(){
+				return _image;
+			},
+			set:function(value){
+				_image = value;
+			}
+		});
+
 		//Se deja la estructura implementada pero aun no es funcional, dado que todavia no sabemos
 		//como se guardarán las imagenes en el array(una url, un objeto embebido, por referencia...)
-		Object.defineProperty(this, "images", {
+		/*Object.defineProperty(this, "images", {
 			get:function(){
 				var nextIndex = 0;
 				return{
@@ -69,8 +81,11 @@
 						{done:true};
 					}
 				}
+			},
+			set:function(value){
+				_images.push(value);
 			}
-		});
+		});*/
 
 
 		}
@@ -87,9 +102,9 @@
 
 	//Objeto Smartphone
 
-	function Smartphone(name, price, description, tax, size){
+	function Smartphone(name, price, description,  img, tax, size){
 		abstractCreateLock = false;
-		Product.call(this, name, price, description, tax);
+		Product.call(this, name, price, description, img, tax);
 		abstractCreateLock = true;
 
 		var _screenSize = size;
@@ -110,9 +125,9 @@
 
 	//Objeto Guitarra
 
-	function Guitarra(name, price, description, tax, type){
+	function Guitarra(name, price, description,  img, tax, type){
 		abstractCreateLock = false;
-		Product.call(this, name, price, description, tax);
+		Product.call(this, name, price, description, img, tax);
 		abstractCreateLock = true;
 
 		var _type = type;
@@ -133,9 +148,9 @@
 
 	//Objeto Libro
 
-	function Libro(name, price, description, tax, genre){
+	function Libro(name, price, description,  img, tax, genre){
 		abstractCreateLock = false;
-		Product.call(this, name, price, description, tax);
+		Product.call(this, name, price, description, img, tax);
 		abstractCreateLock = true;
 
 		var _genre = genre;

@@ -23,3 +23,6 @@ Versión terminada de la Práctica UT04.2. Se han realizado los siguientes cambi
 - Añadido el array de imágenes a los productos.
 - Se implementan las validaciones de categorias, tiendas y productos en funciones para evitar repetir código.
 - Se implementan algunas funciones existentes en la versión anterior como funciones flecha.
+
+versión 1.1.0
+Versión terminada de la Práctica UT05
