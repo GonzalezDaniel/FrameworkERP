@@ -26,3 +26,7 @@ Versión terminada de la Práctica UT04.2. Se han realizado los siguientes cambi
 
 versión 1.1.0
 Versión terminada de la Práctica UT05
+
+versión 1.2.0
+Versión terminada de la Práctica UT06. Se incluye la estructura básica de los formularios
+de la Práctica UT07 (aun incompletos).

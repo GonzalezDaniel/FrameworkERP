@@ -1,7 +1,8 @@
  "use strict";
 
 /*Testeo del StoreHouse en DOM*/
-
+let ventana;
+var windowArray = [];
 function init(){
 	createObjects();
 	initPopulate();
@@ -195,11 +196,27 @@ function shopPopulate(shop){
 		var thumbnailDiv = createThumbnail(thumbTitle,thumbText, thumbImg);
 		colDiv.appendChild(thumbnailDiv);
 
-		thumbnailDiv.addEventListener("click",createFunctionShowProduct(prod, prods.valStock))	
-
+		thumbnailDiv.addEventListener("click",createFunctionShowProduct(prod, prods.valStock));
 		prods = iterableProd.next();
 
 	}
+}
+
+function abrirVentana(prod, stock){
+	ventana = window.open("nuevaVentana.html",prod.name,"toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=1000,height=900");
+	windowArray.push(ventana);
+	ventana.focus();
+	setTimeout(function() {
+		var winNode = ventana.document.getElementById("main");
+		productPopulate(prod, stock ,winNode);
+	}, 100);
+	           
+}
+
+function cerrarVentanas(){
+	windowArray.forEach(ventana => {
+		ventana.close();
+	});
 }
 
 function productsCategoryShopPopulate(category, shop){
@@ -242,15 +259,22 @@ function productsCategoryShopPopulate(category, shop){
 	}
 }
 
-function productPopulate(prod, stock){
-	var colDerecha = document.getElementById("colDerecha");
-	while(colDerecha.hasChildNodes()){
-		colDerecha.removeChild(colDerecha.firstChild);
-	}
-
+function productPopulate(prod, stock, parentNode){
 	var rowDiv1 = document.createElement("div");
-	rowDiv1.setAttribute("class", "row");
-	colDerecha.appendChild(rowDiv1);
+	
+	if(parentNode != " " && typeof parentNode != 'undefined'){
+		rowDiv1.setAttribute("class", "row");
+		parentNode.appendChild(rowDiv1);
+	}else{
+		var parentNode = document.getElementById("colDerecha");
+
+		while(parentNode.hasChildNodes()){
+			parentNode.removeChild(parentNode.firstChild);
+		}
+
+		rowDiv1.setAttribute("class", "row");
+		parentNode.appendChild(rowDiv1);
+	}
 
 	var store=  StoreHouse.getInstance();
 
@@ -304,14 +328,24 @@ function productPopulate(prod, stock){
 		var buttonDiv = document.createElement("div");
 		buttonDiv.setAttribute("class", " prod-data-button");
 		colDiv2.appendChild(buttonDiv);
+
 		var button = document.createElement("button");
 		button.setAttribute("type", "button");
 		button.setAttribute("class", "btn");
 		button.appendChild(document.createTextNode("Comprar"));
 		buttonDiv.appendChild(button);
 
+		//Botón que abrirá la ventana con  la informacion general del producto
+		var button2 = document.createElement("button");
+		button2.setAttribute("type", "button");
+		button2.setAttribute("class", "btn");
+		button2.appendChild(document.createTextNode("Informacion general"));
+		buttonDiv.appendChild(button2);
+		var totalStock = store.getTotalStock(prod);
+		button2.addEventListener("click",createFunctionAbrirVentana(prod, totalStock));
+
 		var divTab = document.createElement("div");
-		colDerecha.appendChild(divTab);
+		parentNode.appendChild(divTab);
 		createProductTab(divTab, prod);
 
 }
@@ -458,6 +492,12 @@ function createFunctionShowShop(shop){
 function createFunctionShowProduct(product, stock){
 	return function(){
 		return productPopulate(product, stock);
+	}
+}
+
+function createFunctionAbrirVentana(product, stock){
+	return function(){
+		return abrirVentana(product, stock);
 	}
 }
 

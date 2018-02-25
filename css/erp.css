@@ -11,6 +11,11 @@ main{
     height: 300px;
 }
 
+.nav-center-custom > li{
+    cursor: pointer;
+}
+
+
 .thumb-custom{
     padding: 0;
     cursor: pointer;
@@ -110,7 +115,108 @@ font-size: 3rem;
     min-height: 200px;
 }
 
+/* CSS del CRUD*/
+thead > tr{
+   width: calc(100% - 18px);
+}
+tbody{
+    display: block;
+    height: 20rem;
+    overflow-y: scroll;
+}
+tr{
+    display: flex;
+}
+th,td{
+    /*flex-basis: 25%;*/
+   /* flex-grow: 1;*/
+}
+.tdDesc, .tdAddress{
+   width: 30%;
+    flex-grow: ;
+}
+
+.tdTitle, .tdCatDesc{
+    width: 40%;
+}
+
+.tdName{
+    width: 20%;
+}
+
+.tdPrice, .tdTel{
+    width: 15%;
+}
+
+.tdCategory, .tdCoords{
+    width: 15%;
+}
+
+.tdButton{
+    width: 20%;
+}
+
+.tableCrud .divDesc{
+    max-height: 2.5rem;
+    overflow: hidden;
+}
+/*.tableCrud{
+    border: 1px solid #ddd;
+}
+.tableCrud > tbody, .tableCrud > thead{
+      display: block;
+}
+th{
+     width: 25%;
+}
+td{
+      width: 20%;
+}
+.tableCrud > thead , .tableCrud > thead > tr {
+    width: 100%;
+}
+tr,th, td{
+    display: inline-block;
+   
+}
+.tableCrud > tbody{
+   
+    max-height: 20rem;
+    overflow-y: scroll;
+}
+.tableCrud .divDesc{
+    max-height: 2.5rem;
+    overflow: hidden;
+}
+
+.tableCrud  tr{
+    border-bottom: 1px solid #ddd;
+}
+td,th{
+    padding: 8px;
+}*/
+
 footer{
     background-color:#f8f8f8;
     height: 15rem;
+}
+
+@media (min-width:768px){
+    .nav-center-custom{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-center-custom > li{
+    width: 20%;
+    text-align: center;
+}
+
+
+.nav-center-custom > li:hover{
+    background-color:rgba(255,255,255,0.1);
+}
+
+
 }
