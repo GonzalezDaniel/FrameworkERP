@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Cronometro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+    <main id="main">
+        <h1>Cronometro</h1>
+        <h2 id="cronometro">00:00:00</h2>
+        <button id="iniciar" onclick="start()">Iniciar</button>
+        <button id="parar" onclick="stop()" disabled>Parar</button>
+        <button id="reiniciar" onclick="reset()">Reiniciar</button>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <a class="up-arrow" href="#init" data-toggle="tooltip" title="TO TOP">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a><br><br>
+        <p>
+            Daniel Gonzalez Aranda
+        </p>
+    </footer>
+
+        <script src="js/cronometro.js"></script> 
+</body>
+
+</html>
+

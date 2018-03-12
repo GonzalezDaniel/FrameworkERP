@@ -93,6 +93,14 @@
 	
 	Product.prototype = {};
 	Product.prototype.constructor = Product;
+	Product.prototype.getObject = function(){
+		return{
+			serialNumber: this.serialNumber,
+			name: this.name,
+			price: this.price,
+			description: this.description
+		};
+	}
 	Object.defineProperty(Product, 'IVA', {
 		value:21,
 		writable:false,
@@ -224,13 +232,13 @@ Coords.prototype.constructor = Coords;
 
 //Objeto Category
 
-function Category(title){
+function Category(title, desc){
 
 	if (!(this instanceof Category)) 
 		throw new InvalidAccessConstructorException();
 
 	var _title = validate.empty(title,"title");	
-	var _description = "";
+	var _description = desc;
 
 	Object.defineProperty(this, 'title', {
 		get:function(){
@@ -239,7 +247,7 @@ function Category(title){
 		set:function(value){
 			value = typeof value !== "undefined" ? value : "";
 			if (value === "") {throw new EmptyValueException("title");}							
-			_title = title;
+			_title = value;
 		}		
 	});		
 	
@@ -257,6 +265,12 @@ function Category(title){
 }
 Category.prototype = {};
 Category.prototype.constructor = Category;
+Category.prototype.getObject = function(){
+	return{
+		title: this.title,
+		descripcion: this.descripcion
+	};
+}
 
 
 //Objeto Shop
@@ -308,6 +322,14 @@ function Shop(cif, name, address, tel){
 	}
 	Shop.prototype = {};
 	Shop.prototype.constructor = Shop;
+	Shop.prototype.getObject = function(){
+		return{
+			cif: this.cif,
+			name: this.name,
+			address: this.address,
+			tel: this.tel
+		};
+	}
 
 //Clousure con un contador.
 var counter = (function (){

@@ -1,11 +1,13 @@
  "use strict";
 
+
 /*Testeo del StoreHouse en DOM*/
 let ventana;
 var windowArray = [];
 function init(){
 	createObjects();
 	initPopulate();
+	checkCookie();
 }
 
 

@@ -251,7 +251,7 @@ var StoreHouse = (function(){
                         }
                     );
                 }else{
-                    throw new ShopExixtsStoreHouseException();
+                    throw new ShopStoreHouseException();
                 }
                 return _shops.length;
             }
@@ -576,6 +576,11 @@ var StoreHouse = (function(){
             this.getShopByCif = function(cif){
                 var shopPos = _shops.findIndex(elem => elem.shop.cif === cif);
                 return _shops[shopPos].shop;
+            }
+
+            this.getCategoryByTitle=function(title){
+                var catPos = _categories.findIndex(elem => elem.category.title === title);
+                return _categories[catPos].category;
             }
 
             this.getTotalStock = function(product){

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/erp.css" rel="stylesheet">
-
+    <script src="js/cookies.js"></script> 
 </head>
 
 <body id="init">
@@ -21,12 +21,14 @@
         <span class="icon-bar"></span>                        
       </button>
                 <a id="Logo" class="navbar-brand" href="#" onclick=initPopulate();>Práctica 5</a>
-                <button onclick=formPopulate();>Formularios</button>
-                <button onclick=cerrarVentanas();>Cerrar Ventanas</button>
+                <button id="formButton" class="btn btn-custom" onclick=formPopulate();>Formularios</button>
+                <button class="btn btn-custom" onclick=cerrarVentanas();>Cerrar Ventanas</button>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+                    <li><button id="login" class="btn btn-default" onclick="loginPopulate()">Login</button></li>
+                    <li><span id="userSpan"></span></li>
+                    <li><button id="logout" class="btn btn-default" onclick="logOut()">Cerrar Sesion</button></li>
                 </ul>
             </div>
         </div>
@@ -61,12 +63,13 @@
         </p>
     </footer>
 
-    
+        
         <script src="js/BaseException.js"></script> 
         <script src="js/ErpObjects.js"></script> 
         <script src="js/StoreHouse.js"></script>
         <script src="js/testDOM.js"></script>
         <script src="js/forms.js"></script> 
+        <script src="js/indexedERP.js"></script> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
 </body>

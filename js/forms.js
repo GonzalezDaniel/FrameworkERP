@@ -2,7 +2,6 @@
 
 function formPopulate(){
     
-
     clearMain();
     var main = document.getElementById("main");
     main.setAttribute("class", "container");
@@ -46,38 +45,14 @@ function shopTabPopulate(){
     clearTabDiv();
     clearFormDiv();
     clearSelectDiv();
-    /*var shopTab = document.getElementById("main");
-    var tableCont = document.createElement("div");
-   // tableCont.setAttribute("class", "container");
-    tableCont.setAttribute("id", "tableContainer");
-    shopTab.appendChild(tableCont);
-
-    var formCont = document.createElement("div");
-    //formCont.setAttribute("class", "container");
-    formCont.setAttribute("id", "shopFormContainer");
-    shopTab.appendChild(formCont);*/
-
     showTableShop();
-    //productForm(formCont);
 }
 
 function categoryTabPopulate(){
     clearTabDiv();
     clearFormDiv();
     clearSelectDiv();
-   /* var catTab = document.getElementById("main");
-    var tableCont = document.createElement("div");
-   // tableCont.setAttribute("class", "container");
-    tableCont.setAttribute("id", "tableContainer");
-    catTab.appendChild(tableCont);
-
-    var formCont = document.createElement("div");
-    //formCont.setAttribute("class", "container");
-    formCont.setAttribute("id", "categoryFormContainer");
-    catTab.appendChild(formCont);*/
-
     showTableCategory();
-    //productForm(formCont);
 }
 
 function createNavBar(parentNode){
@@ -371,7 +346,7 @@ function showTableCategory(){
         
         var edit = document.createElement("button");
         //edit.setAttribute("onclick", "createFunctionEditProductForm();");
-        //edit.addEventListener("click",createFunctionEditProductForm(item, stock, shop));
+        edit.addEventListener("click",createFunctionEditCategoryForm(item));
         edit.appendChild(document.createTextNode("Editar"));
         tdButton.appendChild(edit);
 
@@ -522,7 +497,7 @@ function shopForm(){
     fieldset.appendChild(addInput("text","Coordenadas"));
 
     fieldset.appendChild(createButton(insertShop,"Añadir"));
-    fieldset.appendChild(createButton(updateProduct,"Modificar"));
+    fieldset.appendChild(createButton(updateShop,"Modificar"));
     fieldset.appendChild(createButton(insertProduct,"Eliminar"));
 }
 
@@ -543,11 +518,16 @@ function categoryForm(){
     legend.appendChild(document.createTextNode("Añadir Categoria"));
     fieldset.appendChild(legend);
 
+    var categoryOriginalName = document.createElement("input");
+    categoryOriginalName.setAttribute("type", "hidden");
+    categoryOriginalName.setAttribute("id","catOriginName");
+    fieldset.appendChild(categoryOriginalName);
+
     fieldset.appendChild(addInput("text","Nombre"));
     fieldset.appendChild(addInput("text","Descripcion"));
 
     fieldset.appendChild(createButton(insertCategory,"Añadir"));
-    fieldset.appendChild(createButton(updateProduct,"Modificar"));
+    fieldset.appendChild(createButton(updateCategory,"Modificar"));
     fieldset.appendChild(createButton(insertProduct,"Eliminar"));
 }
 
@@ -609,16 +589,20 @@ function editShopForm(shop){
     coord.value = shop.coords;
 }
 
-function editProduct(){
-    var store=  StoreHouse.getInstance();
-    var form = document.getElementById("productForm");
-    var prod = form.elements.namedItem("Productos").value;
-    var prodId = store.getProductById(prod);
-    var name = document.getElementById("Nombre");
+function editCategoryForm(category){
+    var parentNode = document.getElementById("formContainer");
+    if(!parentNode.hasChildNodes()){
+        categoryForm(category);
+    }
 
-    name.appendChild(document.createTextNode(prodId.name));
-
-
+    var form = document.getElementById("categoryForm");
+    var catOriginName = form.elements.namedItem("catOriginName");
+    var name = form.elements.namedItem("Nombre");
+    var desc = form.elements.namedItem("Descripcion");
+ 
+    catOriginName.value = category.title;
+    name.value = category.title;
+    desc.value = category.description;
 }
 
 function insertProduct(){
@@ -688,6 +672,36 @@ function updateProduct(){
     
     //store.addProduct(prod,cat2);
 
+}
+
+function updateShop(){
+    var store=  StoreHouse.getInstance();
+    var form = document.getElementById("shopForm");
+    var shopCif = form.elements.namedItem("shopCif").value;
+    var shop = store.getShopByCif(shopCif);
+
+    var name = form.elements.namedItem("Nombre").value;
+    var address = form.elements.namedItem("Direccion").value;
+    var tel = form.elements.namedItem("Telefono").value;
+    var coords = form.elements.namedItem("Coordenadas").value;
+    
+    shop.name = name;
+    shop.address = address;
+    shop.tel = tel;
+    shop.coords = coords;
+}
+
+function updateCategory(){
+    var store=  StoreHouse.getInstance();
+    var form = document.getElementById("categoryForm");
+    var originName = form.elements.namedItem("catOriginName").value;
+    var category = store.getCategoryByTitle(originName);
+
+    var name = form.elements.namedItem("Nombre").value;
+    var desc = form.elements.namedItem("Descripcion").value;
+    
+    category.title = name;
+    category.description = desc;
 }
 
 //Funciones de creacion de elementos genericos de formularios en el DOM
@@ -801,6 +815,12 @@ function createFunctionEditProductForm(product, stock,shop){
 function createFunctionEditShopForm(shop){
 	return function(){
 		return editShopForm(shop);
+	}
+}
+
+function createFunctionEditCategoryForm(category){
+	return function(){
+		return editCategoryForm(category);
 	}
 }
 

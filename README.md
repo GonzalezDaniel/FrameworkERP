@@ -30,3 +30,6 @@ Versión terminada de la Práctica UT05
 versión 1.2.0
 Versión terminada de la Práctica UT06. Se incluye la estructura básica de los formularios
 de la Práctica UT07 (aun incompletos).
+
+versión 1.3.0
+Versión terminada de la Práctica UT07. Cronometro terminado de la Práctica UT08 y comienzo de la parte IndexedDB (aun incompleta).
