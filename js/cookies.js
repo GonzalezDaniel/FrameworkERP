@@ -34,6 +34,7 @@ function validateLogin(){
     var pass = document.forms["loginForm"]["Contraseña"].value;
 
     if(usu == "prueba" && pass == "prueba"){
+        
         setCookie("username", usu, 30);
         setCookie("password", pass, 30);
         initPopulate();
@@ -44,6 +45,7 @@ function validateLogin(){
 }
 
 function logOut(){
+    console.log("miau2");
     deleteCookie("username");
     deleteCookie("password");
     initPopulate();

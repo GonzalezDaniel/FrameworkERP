@@ -134,6 +134,7 @@ var StoreHouse = (function(){
                 }else{
                     throw new CategoryExixtsStoryHouseException();
                 }
+               
                 return _categories.length;
             }
 
@@ -253,6 +254,7 @@ var StoreHouse = (function(){
                 }else{
                     throw new ShopStoreHouseException();
                 }
+                
                 return _shops.length;
             }
 
@@ -349,6 +351,8 @@ var StoreHouse = (function(){
                         idProduct: product.serialNumber,
                         stock: 1
                     });
+
+                   
                 return _products.length;
             }
 

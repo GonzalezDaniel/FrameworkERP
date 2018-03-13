@@ -7,27 +7,19 @@ function formPopulate(){
     main.setAttribute("class", "container");
     createNavBar(main);
     
-
     var selectCont = document.createElement("div");
     selectCont.setAttribute("id", "selectContainer");
     main.appendChild(selectCont);
 
     var tableCont = document.createElement("div");
-   // tableCont.setAttribute("class", "container");
     tableCont.setAttribute("id", "tableContainer");
     main.appendChild(tableCont);
 
     var formCont = document.createElement("div");
-    //formCont.setAttribute("class", "container");
     formCont.setAttribute("id", "formContainer");
     main.appendChild(formCont);
 
-    //showTiendasSelect(main);
     productTabPopulate();
-    //tabs(main);
-   // productTabPopulate();
-   // shopTabPopulate();
-    //categoryTabPopulate();
 }
 
 function productTabPopulate(){
@@ -138,18 +130,12 @@ function showTableProduct(shop){
         var iterableProd = store.getShopProducts(shop);
     }
 
-    /*var iterableShop = store.shops;
-    parentNode.appendChild(addSelect("Tiendas", iterableShop));
-
-    var tiendas = document.getElementById("Tiendas");
-    tiendas.setAttribute("onchange", "changeTableProdByShop()");*/
-
     var table = document.createElement("table");
     table.setAttribute("id", "Productos");
     table.setAttribute("class", "table table-bordered tableCrud");
     parentNode.appendChild(table);
 
-    //Creamos la cabecera de la 
+    //Creamos la cabecera de la tabla
     var thead = document.createElement("thead");
     table.appendChild(thead);
     var tr = document.createElement("tr");
@@ -166,7 +152,6 @@ function showTableProduct(shop){
     table.appendChild(tbody);
 
     var items = iterableProd.next();
-   
 
     while(!items.done){
         var item = items.value;
@@ -189,7 +174,6 @@ function showTableProduct(shop){
         tbody.appendChild(tr);
 
         tr.appendChild(createTableElem("td",item.name, "class", "tdName"));
-        //Desc
         var descDiv= document.createElement("div");
         descDiv.setAttribute("class", "divDesc");
         descDiv.appendChild(document.createTextNode(item.description));
@@ -204,24 +188,6 @@ function showTableProduct(shop){
         var tdButton = document.createElement("td");
         tdButton.setAttribute("class", "tdButton");
         tr.appendChild(tdButton);
-        
-        /*var opt = document.createElement("option");
-        if(item instanceof Category){
-            opt.setAttribute("id", item.title);
-            opt.appendChild(document.createTextNode(item.title));
-        }
-        else/*(item instanceof Shop || item instanceof Product)*///{
-           // console.log(item.value);
-           /* opt.setAttribute("value", item.serialNumber);
-            opt.appendChild(document.createTextNode(item.name));
-        }
-
-        input.appendChild(opt);*/
-     // var edit = document.createElement("button");
-        //edit.setAttribute("onclick", "createFunctionEditProductForm();");
-        /*edit.addEventListener("click",createFunctionEditProductForm(item, stock, shop));
-        edit.appendChild(document.createTextNode("Editar"));
-        tdButton.appendChild(edit);*/
 
         tdButton.appendChild(createButton(createFunctionEditProductForm(item, stock, shop),"Editar"));
 
@@ -233,12 +199,7 @@ function showTableProduct(shop){
 		items = iterableProd.next();
 	}
 
-    /*var add = document.createElement("button");
-    add.setAttribute("onclick", "productForm();");
-    add.appendChild(document.createTextNode("Añadir Producto"));
-    parentNode.appendChild(add);*/
     parentNode.appendChild(createButton(productForm, "Añadir Producto"));
-   
 }
 
 function showTableShop(){
@@ -252,7 +213,7 @@ function showTableShop(){
     table.setAttribute("class", "table table-bordered tableCrud");
     parentNode.appendChild(table);
 
-    //Creamos la cabecera de la 
+    //Creamos la cabecera de la tabla
     var thead = document.createElement("thead");
     table.appendChild(thead);
     var tr = document.createElement("tr");
@@ -270,7 +231,6 @@ function showTableShop(){
 
     var items = iterableShop.next();
    
-
     while(!items.done){
         var item = items.value;
 
@@ -298,8 +258,7 @@ function showTableShop(){
     var add = document.createElement("button");
     add.setAttribute("onclick", "shopForm();");
     add.appendChild(document.createTextNode("Añadir Tienda"));
-    parentNode.appendChild(add);
-   
+    parentNode.appendChild(add);   
 }
 
 function showTableCategory(){
@@ -313,7 +272,7 @@ function showTableCategory(){
     table.setAttribute("class", "table table-bordered tableCrud");
     parentNode.appendChild(table);
 
-    //Creamos la cabecera de la 
+    //Creamos la cabecera de la tabla
     var thead = document.createElement("thead");
     table.appendChild(thead);
     var tr = document.createElement("tr");
@@ -323,14 +282,12 @@ function showTableCategory(){
     tr.appendChild(createTableElem("th","Descripcion", "class", "tdCatDesc"));
     tr.appendChild(createTableElem("th","Accion", "class", "tdButton"));
     
-
     //Creamos el cuerpo de la tabla
     var tbody = document.createElement("tbody");
     table.appendChild(tbody);
 
     var items = iterableCategory.next();
    
-
     while(!items.done){
         var item = items.value;
 
@@ -345,7 +302,6 @@ function showTableCategory(){
         tr.appendChild(tdButton);
         
         var edit = document.createElement("button");
-        //edit.setAttribute("onclick", "createFunctionEditProductForm();");
         edit.addEventListener("click",createFunctionEditCategoryForm(item));
         edit.appendChild(document.createTextNode("Editar"));
         tdButton.appendChild(edit);
@@ -361,8 +317,7 @@ function showTableCategory(){
     var add = document.createElement("button");
     add.setAttribute("onclick", "categoryForm();");
     add.appendChild(document.createTextNode("Añadir Categoria"));
-    parentNode.appendChild(add);
-   
+    parentNode.appendChild(add); 
 }
 
 function createTableElem(elem,name,attribute, value){
@@ -390,30 +345,6 @@ function changeTableProdByShop(){
     showTableProduct(shop);
 }
 
-/*
-function crudProduct(parentNode){
-    var store=  StoreHouse.getInstance();
-    var form = document.createElement("form");
-    form.setAttribute("id", "Productos");
-    parentNode.appendChild(form);
-
-    var fieldset = document.createElement("fieldset");
-    form.appendChild(fieldset);
-
-    var legend = document.createElement("legend");
-    legend.appendChild(document.createTextNode("Productos"));
-    fieldset.appendChild(legend);
-
-    var iterableProd = store.products;
-    fieldset.appendChild(addSelect("Productos", iterableProd));
-
-    var submit = document.createElement("button");
-    submit.setAttribute("onclick", "editProduct();");
-    submit.appendChild(document.createTextNode("Editar"));
-    fieldset.appendChild(submit);
-}
-*/
-
 function productForm(parentNode){
     var parentNode = document.getElementById("formContainer");
     if(parentNode.hasChildNodes()){
@@ -422,6 +353,7 @@ function productForm(parentNode){
     var store=  StoreHouse.getInstance();
     var form = document.createElement("form");
     form.setAttribute("id", "productForm");
+    form.setAttribute("action", "#");
     parentNode.appendChild(form);
 
     var fieldset = document.createElement("fieldset");
@@ -446,30 +378,13 @@ function productForm(parentNode){
     fieldset.appendChild(addInput("text","Precio"));
     fieldset.appendChild(addInput("text","Stock"));
     fieldset.appendChild(addTextarea("Descripcion"));
+
     var iterableCat = store.categories;
     fieldset.appendChild(addSelect("Categorias", iterableCat));
 
     fieldset.appendChild(createButton(insertProduct,"Añadir"));
     fieldset.appendChild(createButton(updateProduct,"Modificar"));
     fieldset.appendChild(createButton(insertProduct,"Eliminar"));
-
-    /*var insertButton = document.createElement("button");
-    insertButton.setAttribute("id", "insert");
-    insertButton.setAttribute("onclick", "manageProduct();");
-    insertButton.appendChild(document.createTextNode("Añadir"));
-    fieldset.appendChild(insertButton);
-
-    var updateButton = document.createElement("button");
-    updateButton.setAttribute("id", "update");
-    updateButton.setAttribute("onclick", "updateProduct();");
-    updateButton.appendChild(document.createTextNode("Modificar"));
-    fieldset.appendChild(updateButton);
-
-    var deleteButton = document.createElement("button");
-    deleteButton.setAttribute("id", "update");
-    deleteButton.setAttribute("onclick", "manageProduct();");
-    deleteButton.appendChild(document.createTextNode("Eliminar"));
-    fieldset.appendChild(deleteButton);*/
 
 }
 
@@ -481,6 +396,7 @@ function shopForm(){
     var store=  StoreHouse.getInstance();
     var form = document.createElement("form");
     form.setAttribute("id", "shopForm");
+    form.setAttribute("action", "#");
     parentNode.appendChild(form);
 
     var fieldset = document.createElement("fieldset");
@@ -509,6 +425,7 @@ function categoryForm(){
     var store=  StoreHouse.getInstance();
     var form = document.createElement("form");
     form.setAttribute("id", "categoryForm");
+    form.setAttribute("action", "#");
     parentNode.appendChild(form);
 
     var fieldset = document.createElement("fieldset");
@@ -533,8 +450,6 @@ function categoryForm(){
 
 function createButton( onClickFunc, text){
     var button = document.createElement("button");
-    //button.setAttribute("id", id);
-   // button.setAttribute("onclick", onClickFunc);
     button.addEventListener("click",onClickFunc);
     button.appendChild(document.createTextNode(text));
     return button;
@@ -548,16 +463,13 @@ function editProductForm(prod, stockVal, shop){
     }
 
     var form = document.getElementById("productForm");
-    //var prod = form.elements.namedItem("Productos").value;
-    //var name = document.getElementById("Nombre");
-    //var name = document.getElementById("Nombre");
+   
     var id = form.elements.namedItem("productId");
     var cif = form.elements.namedItem("shopCif");
     var name = form.elements.namedItem("Nombre");
     var price = form.elements.namedItem("Precio");
     var stock = form.elements.namedItem("Stock");
     var desc = form.elements.namedItem("Descripcion");
-    //name.disabled=true;
     
     id.value = prod.serialNumber;
     cif.value = shop.cif;
@@ -565,8 +477,6 @@ function editProductForm(prod, stockVal, shop){
     price.value = prod.price;
     stock.value = stockVal;
     desc.value = prod.description;
-
-   // name.appendChild(document.createTextNode(prodId.name));
 }
 
 function editShopForm(shop){
@@ -616,10 +526,9 @@ function insertProduct(){
     var cat2 = getCat(cat);
 
     var prod = new Smartphone(name, price, desc);
-	//s1.images="xiaomi.jpg";
     
     store.addProduct(prod,cat2);
-
+    productTabPopulate();
 }
 
 function insertShop(){
@@ -635,6 +544,7 @@ function insertShop(){
     var shop = new Shop(cif,name, address, tel, coord);
     
     store.addShop(shop);
+    shopTabPopulate();
 }
 
 function insertCategory(){
@@ -647,6 +557,8 @@ function insertCategory(){
     var cat = new Category(name,desc);
     
     store.addCategory(cat);
+
+    categoryTabPopulate();
 }
 
 function updateProduct(){
@@ -662,16 +574,13 @@ function updateProduct(){
     var stockString = form.elements.namedItem("Stock").value;
     var stock = parseInt(stockString);
     var desc = form.elements.namedItem("Descripcion").value;
-    //var cat = form.elements.namedItem("Categorias").value;
-    //var cat2 = getCat(cat);
+    
     prod.name = name;
     prod.price = price;
     store.addQuantityProductInShop(prod,shop,stock);
     prod.description = desc;
-	//s1.images="xiaomi.jpg";
     
-    //store.addProduct(prod,cat2);
-
+    productTabPopulate();
 }
 
 function updateShop(){
@@ -689,6 +598,8 @@ function updateShop(){
     shop.address = address;
     shop.tel = tel;
     shop.coords = coords;
+
+    shopTabPopulate();
 }
 
 function updateCategory(){
@@ -699,9 +610,10 @@ function updateCategory(){
 
     var name = form.elements.namedItem("Nombre").value;
     var desc = form.elements.namedItem("Descripcion").value;
-    
     category.title = name;
     category.description = desc;
+
+    categoryTabPopulate();
 }
 
 //Funciones de creacion de elementos genericos de formularios en el DOM
@@ -769,7 +681,6 @@ function addSelect(name, iterable){
             opt.appendChild(document.createTextNode(item.title));
         }
         else if(item instanceof Product){
-           // console.log(item.value);
             opt.setAttribute("value", item.serialNumber);
             opt.appendChild(document.createTextNode(item.name));
         }

@@ -90,7 +90,6 @@ function initPopulate(){
 	clearMain();
 	changeJumbo("ERP", "Ejemplo de implementación del ERP con DOM.", "images/jumbo/defaultshop");
 	var main = document.getElementById("main");
-
 	var idDiv = document.createElement("div");
 	idDiv.id = "shops";
 	main.appendChild(idDiv);
