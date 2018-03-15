@@ -134,7 +134,7 @@ var StoreHouse = (function(){
                 }else{
                     throw new CategoryExixtsStoryHouseException();
                 }
-               
+                addItem("categories",category.getObject());
                 return _categories.length;
             }
 
@@ -254,7 +254,7 @@ var StoreHouse = (function(){
                 }else{
                     throw new ShopStoreHouseException();
                 }
-                
+                addItem("shops",shop.getObject());
                 return _shops.length;
             }
 
@@ -352,7 +352,7 @@ var StoreHouse = (function(){
                         stock: 1
                     });
 
-                   
+                    addItem("products",product.getObject());
                 return _products.length;
             }
 
@@ -569,6 +569,8 @@ var StoreHouse = (function(){
                         cat.idProducts.splice(prodInCatPos, 1);
                     }
                 });
+
+                _products.splice(position,1);
 				return _products.length;
             }
             

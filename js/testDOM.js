@@ -5,7 +5,7 @@
 let ventana;
 var windowArray = [];
 function init(){
-	createObjects();
+	//createObjects();
 	initPopulate();
 	checkCookie();
 }
@@ -536,5 +536,5 @@ function createThumbnail(title, text, image){
 		return thumbnailDiv;
 	}
 
-window.onload = init;
+//window.onload = init;
 

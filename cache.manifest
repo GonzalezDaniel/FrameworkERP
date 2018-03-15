@@ -1,0 +1,14 @@
+#CACHE MANIFEST
+
+
+#index.html
+#css/erp.css
+#js/bootstrap.js
+#js/BaseException.js
+
+#NETWORK:
+#js/StoreHouse.js
+#js/ErpObjects.js
+#js/cookies.js
+#js/testDom.js
+#css/bootstrap.css

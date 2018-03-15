@@ -191,10 +191,10 @@ function showTableProduct(shop){
 
         tdButton.appendChild(createButton(createFunctionEditProductForm(item, stock, shop),"Editar"));
 
-        var remove = document.createElement("button");
+        /*var remove = document.createElement("button");
         remove.setAttribute("onclick", "editProduct();");
         remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);
+        tdButton.appendChild(remove);*/
 
 		items = iterableProd.next();
 	}
@@ -247,10 +247,10 @@ function showTableShop(){
         
         tdButton.appendChild(createButton(createFunctionEditShopForm(item),"Editar"));
 
-        var remove = document.createElement("button");
+        /*var remove = document.createElement("button");
         remove.setAttribute("onclick", "editProduct();");
         remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);
+        tdButton.appendChild(remove);*/
 
 		items = iterableShop.next();
 	}
@@ -306,10 +306,10 @@ function showTableCategory(){
         edit.appendChild(document.createTextNode("Editar"));
         tdButton.appendChild(edit);
 
-        var remove = document.createElement("button");
+       /* var remove = document.createElement("button");
         remove.setAttribute("onclick", "editProduct();");
         remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);
+        tdButton.appendChild(remove);*/
 
 		items = iterableCategory.next();
 	}
@@ -384,7 +384,7 @@ function productForm(parentNode){
 
     fieldset.appendChild(createButton(insertProduct,"Añadir"));
     fieldset.appendChild(createButton(updateProduct,"Modificar"));
-    fieldset.appendChild(createButton(insertProduct,"Eliminar"));
+    fieldset.appendChild(createButton(deleteProduct,"Eliminar"));
 
 }
 
@@ -414,7 +414,7 @@ function shopForm(){
 
     fieldset.appendChild(createButton(insertShop,"Añadir"));
     fieldset.appendChild(createButton(updateShop,"Modificar"));
-    fieldset.appendChild(createButton(insertProduct,"Eliminar"));
+    fieldset.appendChild(createButton(deleteShop,"Eliminar"));
 }
 
 function categoryForm(){
@@ -445,11 +445,12 @@ function categoryForm(){
 
     fieldset.appendChild(createButton(insertCategory,"Añadir"));
     fieldset.appendChild(createButton(updateCategory,"Modificar"));
-    fieldset.appendChild(createButton(insertProduct,"Eliminar"));
+    fieldset.appendChild(createButton(deleteCategory,"Eliminar"));
 }
 
 function createButton( onClickFunc, text){
     var button = document.createElement("button");
+    button.setAttribute("type","button");
     button.addEventListener("click",onClickFunc);
     button.appendChild(document.createTextNode(text));
     return button;
@@ -580,6 +581,8 @@ function updateProduct(){
     store.addQuantityProductInShop(prod,shop,stock);
     prod.description = desc;
     
+    updateItem("products",prod.getObject(), prodId);
+
     productTabPopulate();
 }
 
@@ -599,6 +602,8 @@ function updateShop(){
     shop.tel = tel;
     shop.coords = coords;
 
+    updateItem("shops",shop.getObject(), shopCif);
+
     shopTabPopulate();
 }
 
@@ -613,8 +618,52 @@ function updateCategory(){
     category.title = name;
     category.description = desc;
 
+    updateItem("categories",category.getObject(), originName);
+
     categoryTabPopulate();
 }
+
+function deleteProduct(){
+    var store=  StoreHouse.getInstance();
+    var form = document.getElementById("productForm");
+    var prodId = form.elements.namedItem("productId").value;
+    var prod = store.getProdById(parseInt(prodId));
+   
+    store.removeProduct(prod);
+    
+    deleteItem("products",parseInt(prodId));
+
+    productTabPopulate();
+}
+
+function deleteShop(){
+    var store=  StoreHouse.getInstance();
+    var form = document.getElementById("shopForm");
+    var shopCif = form.elements.namedItem("shopCif").value;
+    var shop = store.getShopByCif(shopCif);
+
+    store.removeShop(shop);
+    
+
+    deleteItem("shops", shopCif);
+
+    shopTabPopulate();
+}
+
+function deleteCategory(){
+    var store=  StoreHouse.getInstance();
+    var form = document.getElementById("categoryForm");
+    var originName = form.elements.namedItem("catOriginName").value;
+    var category = store.getCategoryByTitle(originName);
+
+    store.removeCategory(category);
+    
+
+    deleteItem("categories", originName);
+
+    categoryTabPopulate();
+}
+
 
 //Funciones de creacion de elementos genericos de formularios en el DOM
 

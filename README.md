@@ -31,6 +31,12 @@ versión 1.2.0
 Versión terminada de la Práctica UT06. Se incluye la estructura básica de los formularios
 de la Práctica UT07 (aun incompletos).
 
-versión 1.3.0 Versión terminada de la Práctica UT07. Cronometro terminado de la Práctica UT08 y comienzo de la parte IndexedDB (aun incompleta).
+versión 1.3.0
+Versión terminada de la Práctica UT07. Cronometro terminado de la Práctica UT08 y comienzo de la parte IndexedDB (aun incompleta).
 
-versión 1.3.1 Correccion de errores de la Practica UT07. En esta version se incluyen unicamente la práctica 7 y el cronometro de la practica 08 dado que es la que se utilizara para realizar la entrega de Ut07 y lo realizado hasta ahora de la practica8 hace que la aplicacion no se ejecute correctamente debido a errores.
+versión 1.3.1
+Correccion de errores de la Practica UT07. En esta version se incluyen unicamente la práctica 7 y el cronometro de la practica 08 dado que es la que se utilizara para realizar la entrega de Ut07 y lo realizado hasta ahora de la practica8 hace que la aplicacion no se ejecute correctamente debido a errores.
+
+Versión 1.4.0
+Practica UT08 terminada. Se incluyen los archivos de cache comentados, dado que surgen problemas al cargar solo determinados elementos del sitio y otros no.
+Se implementa la funcion para eliminar tanto productos como categorias y tiendas que no se implementó por error en la practica anterior.

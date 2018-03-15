@@ -2,13 +2,14 @@
 function loginPopulate(){
     clearMain();
     var main = document.getElementById("main");
-    main.setAttribute("class", "container");
+    //main.setAttribute("class", "container");
     loginForm(main);
 }
 
 function loginForm(parentNode){
     var form = document.createElement("form");
     form.setAttribute("id", "loginForm");
+    form.setAttribute("action", "#");
     parentNode.appendChild(form);
 
     var fieldset = document.createElement("fieldset");
@@ -25,7 +26,12 @@ function loginForm(parentNode){
     p.setAttribute("id","validationP");
     fieldset.appendChild(p);
 
-    fieldset.appendChild(createButton(validateLogin,"Enviar"));
+    var button = document.createElement("button");
+    button.setAttribute("type","button");
+    button.addEventListener("click",validateLogin);
+    button.appendChild(document.createTextNode("Enviar"));
+
+    fieldset.appendChild(button);
     
 }
 
@@ -34,7 +40,6 @@ function validateLogin(){
     var pass = document.forms["loginForm"]["Contraseña"].value;
 
     if(usu == "prueba" && pass == "prueba"){
-        
         setCookie("username", usu, 30);
         setCookie("password", pass, 30);
         initPopulate();
@@ -45,7 +50,6 @@ function validateLogin(){
 }
 
 function logOut(){
-    console.log("miau2");
     deleteCookie("username");
     deleteCookie("password");
     initPopulate();
