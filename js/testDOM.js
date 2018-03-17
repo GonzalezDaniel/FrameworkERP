@@ -11,7 +11,7 @@ function init(){
 }
 
 
-function createObjects(){
+/*function createObjects(){
 	//Creamos tiendas
 	var t1 = new Shop("9756842","Amazon");
 	var t2 = new Shop("8754681","Ebay");
@@ -56,7 +56,11 @@ function createObjects(){
 	g3.images="ibanez.jpg";
 	g3.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
 	
-	
+
+	/*console.log(g1.getObject());
+	var temp =JSON.stringify(g1.getObject());
+	console.log(temp);*/
+/*
 	var l1 = new Libro("Harry Potter 1",15);
 	var l2 = new Libro("Juan Potter 2",25);
 	l1.images="HP1.jpg";
@@ -85,6 +89,91 @@ function createObjects(){
 	store.addProductInShop(s1,t3,5);
 	
 };
+*/
+
+/*function createObjects(){
+	//Creamos tiendas
+	var t1 = new Shop("9756842","Amazon");
+	var t2 = new Shop("8754681","Ebay");
+	var t3 = new Shop("1587463","Pccomponentes");
+
+	//Añadimos tiendas
+	var store=  StoreHouse.getInstance();
+	store.addShop(t1)
+	store.addShop(t2)
+	store.addShop(t3)
+
+	//Creamos categorias
+	var cat1 = new Category("Electronica");
+	cat1.description = "Descripción categoría 1";
+	var cat2 = new Category("Musica");
+	cat2.description = "Descripción categoría 2";
+	var cat3 = new Category("Libros");
+	cat3.description = "Descripción categoría 3";	
+
+	store.addCategory(cat1);
+	store.addCategory(cat2);
+	store.addCategory(cat3);
+
+	//Creamos articulos
+
+	var prods = loadProds("products.json");
+	console.log(prods);
+
+	var s1 = new Smartphone("Xiaomi",100);
+	s1.images="xiaomi.jpg";
+	s1.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	var s2 = new Smartphone("Smamsung",350);
+	s2.images="samsung.jpg";
+	s2.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	var s3 = new Smartphone("iPhone",2000000000 );
+	s3.images="iphone.jpg";
+	s3.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+
+	var g1 = new Guitarra("Fender",300);
+	var g2 = new Guitarra("Gibson",500);
+	var g3 = new Guitarra("Ibanez",600);
+	g1.images="fender.jpg";
+	g1.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	g2.images="gibson.jpg";
+	g2.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	g3.images="ibanez.jpg";
+	g3.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	
+
+	/*console.log(g1.getObject());
+	var temp =JSON.stringify(g1.getObject());
+	console.log(temp);*/
+/*
+	var l1 = new Libro("Harry Potter 1",15);
+	var l2 = new Libro("Juan Potter 2",25);
+	l1.images="HP1.jpg";
+	l1.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+	l2.images="HP2.jpg";
+	l2.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisi ac quam hendrerit vulputate. Maecenas ullamcorper quam sagittis urna mattis luctus. Donec tempus ante ornare scelerisque blandit. Duis sit amet ante in neque dignissim rhoncus ac sed magna. Fusce tempor diam eget mattis aliquet. Donec luctus augue ipsum, a vehicula sapien elementum eget. Etiam eu urna scelerisque, volutpat nisi eget, pellentesque metus. Aliquam ultrices, dolor vitae viverra molestie, eros est imperdiet dui, commodo egestas nisi tellus eu dolor. Sed sit amet lacus ultricies, elementum sem at, bibendum lorem. Aliquam congue, erat id convallis faucibus, metus lorem placerat leo, a accumsan diam orci et metus. ";
+
+	store.addProduct(s1,cat1);
+	store.addProduct(s2,cat1);
+	store.addProduct(s3,cat1);
+	store.addProduct(g1,cat2);
+	store.addProduct(g2,cat2);
+	store.addProduct(g3,cat2);
+	store.addProduct(l1,cat3);
+	store.addProduct(l2,cat3);
+
+	//introducimos articulos en tiendas
+	store.addProductInShop(s1,t1,5);
+	store.addProductInShop(g2,t1,5);
+	store.addProductInShop(l2,t1,5);
+	store.addProductInShop(l1,t2,5);
+	store.addProductInShop(s1,t2,5);
+	store.addProductInShop(s3,t2,5);
+	store.addProductInShop(s2,t3,5);
+	store.addProductInShop(g3,t3,5);
+	store.addProductInShop(s1,t3,5);
+	
+};
+*/
 
 function initPopulate(){
 	clearMain();

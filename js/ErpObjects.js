@@ -98,7 +98,8 @@
 			serialNumber: this.serialNumber,
 			name: this.name,
 			price: this.price,
-			description: this.description
+			description: this.description,
+			image: this.images
 		};
 	}
 	Object.defineProperty(Product, 'IVA', {
@@ -268,7 +269,7 @@ Category.prototype.constructor = Category;
 Category.prototype.getObject = function(){
 	return{
 		title: this.title,
-		descripcion: this.descripcion
+		description: this.description
 	};
 }
 
@@ -327,7 +328,8 @@ function Shop(cif, name, address, tel){
 			cif: this.cif,
 			name: this.name,
 			address: this.address,
-			tel: this.tel
+			tel: this.tel,
+            coords: this.coords
 		};
 	}
 

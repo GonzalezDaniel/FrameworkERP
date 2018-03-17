@@ -25,6 +25,11 @@ main{
     width: 100%;
 }
 
+#userSpan{
+    margin-top:15px;
+    margin-right: 10px;
+}
+
 .thumb-custom{
     padding: 0;
     cursor: pointer;
@@ -38,6 +43,9 @@ main{
 
 .thumb-custom > .caption{
     background-color: #f5f5f5;
+}
+.btn-custom{
+    margin-top:8px;
 }
 
 .thumb-custom > .caption > p{

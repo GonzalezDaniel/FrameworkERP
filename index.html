@@ -9,6 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/erp.css" rel="stylesheet">
     <script src="js/cookies.js"></script> 
+    
 </head>
 
 <body id="init">
@@ -22,14 +23,16 @@
         <span class="icon-bar"></span>                        
       </button>
                 <a id="Logo" class="navbar-brand" href="#" onclick=initPopulate();>Práctica 5</a>
-                <button id="formButton" class="btn btn-custom" onclick=formPopulate();>Formularios</button>
-                <button class="btn btn-custom" onclick=cerrarVentanas();>Cerrar Ventanas</button>
+                <button id="formButton" class="btn btn-default btn-custom" onclick=formPopulate();>Formularios</button>
+                <button class="btn btn-default btn-custom" onclick=cerrarVentanas();>Cerrar Ventanas</button>
+                <button id="createJson" class="btn btn-default btn-custom" onclick=sendUserObjects();>Crear Json</button>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><button id="login" class="btn btn-default" onclick="loginPopulate()">Login</button></li>
-                    <li><span id="userSpan"></span></li>
-                    <li><button id="logout" class="btn btn-default" onclick="logOut()">Cerrar Sesion</button></li>
+                    <li><button id="login" class="btn btn-default btn-custom" onclick="loginPopulate()">Login</button></li>
+                    
+                    <li id="userSpan"><span></span></li>
+                    <li><button id="logout" class="btn btn-default btn-custom" onclick="logOut()">Cerrar Sesion</button></li>
                 </ul>
             </div>
         </div>
@@ -65,11 +68,13 @@
     </footer>
 
     <script src="js/indexedERP.js"></script> 
-        <script src="js/BaseException.js"></script> 
-        <script src="js/ErpObjects.js"></script> 
-        
-        <script src="js/StoreHouse.js"></script>
+    <script src="js/BaseException.js"></script> 
+    <script src="js/ErpObjects.js"></script> 
+    
+    <script src="js/StoreHouse.js"></script>
+
         <script src="js/testDOM.js"></script>
+        <script src="js/json.js"></script> 
         <script src="js/forms.js"></script> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

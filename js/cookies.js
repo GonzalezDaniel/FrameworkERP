@@ -88,11 +88,13 @@ function checkCookie() {
         document.getElementById("userSpan").style.display = "inline-block";
         document.getElementById("userSpan").innerHTML = "Bienvenido: "+ user;
         document.getElementById("logout").style.display="inline-block";
+        document.getElementById("createJson").style.display="inline-block";
     } else {
         document.getElementById("formButton").style.display="none";
         document.getElementById("login").style.display="inline-block";
         document.getElementById("userSpan").style.display = "none";
         document.getElementById("logout").style.display="none";
+        document.getElementById("createJson").style.display="none";
     }
 }
 

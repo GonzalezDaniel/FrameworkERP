@@ -40,3 +40,8 @@ Correccion de errores de la Practica UT07. En esta version se incluyen unicament
 Versión 1.4.0
 Practica UT08 terminada. Se incluyen los archivos de cache comentados, dado que surgen problemas al cargar solo determinados elementos del sitio y otros no.
 Se implementa la funcion para eliminar tanto productos como categorias y tiendas que no se implementó por error en la practica anterior.
+
+Versión 1.5.0
+Practica UT09 terminada. El fichero Json donde se guardan los datos para la carga del ERP se ha dividido en tres (products.json, shops.json, categories.json) a fin de mantener los datos organizados segun su tipo,
+facilitando asi posibles tareas de mantenimiento o gestion de errores en las practicas siguientes. El fichero que guarda los datos del usuario en el servidor se encuentra junto con estos en la carpeta json.
+Debido a la falta de tiempo, no se incluye el apartado de los workers, se intentará incluir mas adelante.
