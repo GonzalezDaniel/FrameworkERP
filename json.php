@@ -1,7 +1,7 @@
 <?php
 
-$obj = $_POST["x"];
-$usu = $_POST["usu"];
+$obj = $_POST["obj"];
+$usu = $_POST["user"];
 
 $fp = fopen("json/".$usu.'.json', 'w');
 fputs($fp, $obj);

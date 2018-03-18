@@ -10,50 +10,53 @@ function createObjectsJson(){
 }
 
 function loadProducts() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-       
-        var data = JSON.parse(xhttp.response);
-        
-        createProds(data);
+    $.ajax({
+      url : "json/products.json",
+      data : {},
+      type : "POST",
+      dataType : 'json',
+      success : function(json) {
+        createProds(json);
         createProductsInShops();
-       
-      }
-    };
-    xhttp.open("POST", "json/products.json", true);
-    xhttp.send();
+      },
+      error : function(jqXHR, status, error) {
+          console.log("Error cargando productos");
+      },
+      complete : function(jqXHR, status) {}
+  });
+    
   }
 
   function loadShops() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-       
-        var data = JSON.parse(xhttp.response);
-
-        createShops(data);
-       
-      }
-    };
-    xhttp.open("POST", "json/shops.json", true);
-    xhttp.send();
+    $.ajax({
+      url : "json/shops.json",
+      data : {},
+      type : "POST",
+      dataType : 'json',
+      success : function(json) {
+        createShops(json);
+      },
+      error : function(jqXHR, status, error) {
+        console.log("Error cargando Tiendas");
+      },
+      complete : function(jqXHR, status) {}
+  });
   }
 
   function loadCategories() {
-    var xhttp = new XMLHttpRequest();
-  
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-       
-        var data = JSON.parse(xhttp.response);
-
-        createCategories(data);
-       
-      }
-    };
-    xhttp.open("POST", "json/categories.json", true);
-    xhttp.send();
+    $.ajax({
+      url : "json/categories.json",
+      data : {},
+      type : "POST",
+      dataType : 'json',
+      success : function(json) {
+        createCategories(json);
+      },
+      error : function(jqXHR, status, error) {
+        console.log("Error cargando Categorias");
+      },
+      complete : function(jqXHR, status) {}
+  });
   }
 
 
@@ -166,9 +169,26 @@ sendDoc(items, user);
 }
 
   function sendDoc( obj, user) {
-    var xhttp = new XMLHttpRequest();
+    /*var xhttp = new XMLHttpRequest();
  
     xhttp.open("POST", "json.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("x="+obj+"&usu="+user);
+    xhttp.send("x="+obj+"&usu="+user);*/
+
+
+/*$.ajax({
+        url: "/form.php",
+        type: "post",
+        data: 
+    });*/
+
+    $.ajax({
+      url : "json.php",
+      data : {obj,user},
+      type : "POST",
+      error : function(jqXHR, status, error) {
+          console.log("Error enviando JSON");
+      },
+      complete : function(jqXHR, status) {}
+  });
   }

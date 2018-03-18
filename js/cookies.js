@@ -1,43 +1,43 @@
 
 function loginPopulate(){
     clearMain();
-    var main = document.getElementById("main");
-    //main.setAttribute("class", "container");
+    var main = $("#main");
+    //main.attr("class", "container");
     loginForm(main);
 }
 
 function loginForm(parentNode){
-    var form = document.createElement("form");
-    form.setAttribute("id", "loginForm");
-    form.setAttribute("action", "#");
-    parentNode.appendChild(form);
+    var form = $("<form></form>");
+    form.attr("id", "loginForm");
+    form.attr("action", "#");
+    parentNode.append(form);
 
-    var fieldset = document.createElement("fieldset");
-    form.appendChild(fieldset);
+    var fieldset = $("<fieldset></fieldset>");
+    form.append(fieldset);
 
-    var legend = document.createElement("legend");
-    legend.appendChild(document.createTextNode("Iniciar Sesión"));
-    fieldset.appendChild(legend);
+    var legend = $("<legend></legend>");
+    legend.text("Iniciar Sesión");
+    fieldset.append(legend);
 
-    fieldset.appendChild(addInput("text","Usuario"));
-    fieldset.appendChild(addInput("password","Contraseña"));
+    fieldset.append(addInput("text","Usuario"));
+    fieldset.append(addInput("password","Contraseña"));
 
-    var p = document.createElement("p");
-    p.setAttribute("id","validationP");
-    fieldset.appendChild(p);
+    var p = $("<p></p>");
+    p.attr("id","validationP");
+    fieldset.append(p);
 
-    var button = document.createElement("button");
-    button.setAttribute("type","button");
-    button.addEventListener("click",validateLogin);
-    button.appendChild(document.createTextNode("Enviar"));
+    var button = $("<button></button>");
+    button.attr("type","button");
+    button.click(validateLogin);
+    button.text("Enviar");
 
-    fieldset.appendChild(button);
+    fieldset.append(button);
     
 }
 
 function validateLogin(){
-    var usu = document.forms["loginForm"]["Usuario"].value;
-    var pass = document.forms["loginForm"]["Contraseña"].value;
+    var usu = $("#Usuario").val();
+    var pass = $("#Contraseña").val();
 
     if(usu == "prueba" && pass == "prueba"){
         setCookie("username", usu, 30);
@@ -45,7 +45,7 @@ function validateLogin(){
         initPopulate();
         checkCookie();
     }else{
-        document.getElementById("validationP").innerHTML = "Credendiales incorrectas.";
+        $("#validationP").innerHTML = "Credendiales incorrectas.";
     }
 }
 
@@ -83,18 +83,18 @@ function checkCookie() {
     var user=getCookie("username");
     var pass=getCookie("password");
     if (user != "") {
-        document.getElementById("formButton").style.display="inline-block";
-        document.getElementById("login").style.display="none";
-        document.getElementById("userSpan").style.display = "inline-block";
-        document.getElementById("userSpan").innerHTML = "Bienvenido: "+ user;
-        document.getElementById("logout").style.display="inline-block";
-        document.getElementById("createJson").style.display="inline-block";
+        $("#formButton").css("display","inline-block");
+        $("#login").css("display","none");
+        $("#userSpan").css("display","inline-block");
+        $("#userSpan").text("Bienvenido: "+ user);
+        $("#logout").css("display","inline-block");
+        $("#createJson").css("display","inline-block");
     } else {
-        document.getElementById("formButton").style.display="none";
-        document.getElementById("login").style.display="inline-block";
-        document.getElementById("userSpan").style.display = "none";
-        document.getElementById("logout").style.display="none";
-        document.getElementById("createJson").style.display="none";
+        $("#formButton").css("display","none");
+        $("#login").css("display","inline-block");
+        $("#userSpan").css("display", "none");
+        $("#logout").css("display","none");
+        $("#createJson").css("display","none");
     }
 }
 

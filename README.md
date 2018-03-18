@@ -48,3 +48,6 @@ Debido a la falta de tiempo, no se incluye el apartado de los workers, se intent
 
 Versión 1.6.0
 Practica UT10 terminada. Aunque se implemente la parte de drag & drop, tiene algunos errores, como por ejemplo, que el objeto solo se elimine si arrastras desde el cuerpo del thumbnail y no si se hace desde la imagen del mismo.
+
+Versión 1.7.0
+Practica UT11 Terminada.

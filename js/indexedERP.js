@@ -97,8 +97,6 @@ function updateItem(store, item, itemKey){
 }
 
 
-
-
 function deleteItem(store, itemKey){
   var db = database.result;
   var object = db.transaction([store],"readwrite").objectStore(store);

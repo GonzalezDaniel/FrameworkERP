@@ -3,21 +3,17 @@
 function formPopulate(){
     
     clearMain();
-    var main = document.getElementById("main");
-    main.setAttribute("class", "container");
+    var main = $("#main").attr("class", "container");
     createNavBar(main);
     
-    var selectCont = document.createElement("div");
-    selectCont.setAttribute("id", "selectContainer");
-    main.appendChild(selectCont);
+    var selectCont = $("<div></div>").attr("id", "selectContainer");
+    main.append(selectCont);
 
-    var tableCont = document.createElement("div");
-    tableCont.setAttribute("id", "tableContainer");
-    main.appendChild(tableCont);
+    var tableCont = $("<div></div>").attr("id", "tableContainer");
+    main.append(tableCont);
 
-    var formCont = document.createElement("div");
-    formCont.setAttribute("id", "formContainer");
-    main.appendChild(formCont);
+    var formCont = $("<div></div>").attr("id", "formContainer");
+    main.append(formCont);
 
     productTabPopulate();
 }
@@ -25,8 +21,8 @@ function formPopulate(){
 function productTabPopulate(){
     clearTabDiv();
     clearFormDiv();
-    var main = document.getElementById("main");
-    var shopSelect = document.getElementById("Tiendas");
+    var main = $("#main");
+    var shopSelect = $("#Tiendas");
     if(shopSelect == null){
         showTiendasSelect(main);
     }
@@ -48,80 +44,71 @@ function categoryTabPopulate(){
 }
 
 function createNavBar(parentNode){
-    var nav = document.createElement("nav");
-    nav.setAttribute("class", "navbar navbar-default navbar-inverse");
-    parentNode.appendChild(nav);
+    var nav = $("<nav></nav>").attr("class", "navbar navbar-default navbar-inverse");
+    parentNode.append(nav);
 
-    var div = document.createElement("div");
-    nav.appendChild(div);
+    var div = $("<div></div>");
+    nav.append(div);
 
-    var divNavHead = document.createElement("div");
-    divNavHead.setAttribute("class", "navbar-header");
-    div.appendChild(divNavHead);
+    var divNavHead = $("<div></div>").attr("class", "navbar-header");
+    div.append(divNavHead);
 
-    var icon = document.createElement("button");
-    icon.setAttribute("class", "navbar-toggle button-custom");
-    icon.setAttribute("data-toggle", "collapse");
-    icon.setAttribute("data-target", "#myNavbarForm");
-    divNavHead.appendChild(icon);
+    var icon = $("<button></button>").attr("class", "navbar-toggle button-custom");
+    icon.attr("data-toggle", "collapse");
+    icon.attr("data-target", "#myNavbarForm");
+    divNavHead.append(icon);
 
-    var iconBar = document.createElement("span");
-    iconBar.setAttribute("class", "icon-bar");
-    icon.appendChild(iconBar);
-    var iconBar = document.createElement("span");
-    iconBar.setAttribute("class", "icon-bar");
-    icon.appendChild(iconBar);
-    var iconBar = document.createElement("span");
-    iconBar.setAttribute("class", "icon-bar");
-    icon.appendChild(iconBar);
+    var iconBar = $("<span></span>").attr("class", "icon-bar");
+    icon.append(iconBar);
+    var iconBar = $("<span></span>").attr("class", "icon-bar");
+    icon.append(iconBar);
+    var iconBar = $("<span></span>").attr("class", "icon-bar");
+    icon.append(iconBar);
     
-    var divNavData = document.createElement("div");
-    divNavData.setAttribute("id", "myNavbarForm");
-    divNavData.setAttribute("class", "collapse navbar-collapse");
-    div.appendChild(divNavData);
+    var divNavData = $("<div></div>");
+    divNavData.attr("id", "myNavbarForm");
+    divNavData.attr("class", "collapse navbar-collapse");
+    div.append(divNavData);
 
-    var ul = document.createElement("ul");
-    ul.setAttribute("class", "nav navbar-nav nav-center-custom");
-    divNavData.appendChild(ul);
+    var ul = $("<ul></ul>").attr("class", "nav navbar-nav nav-center-custom");
+    divNavData.append(ul);
 
-    var li = document.createElement("li");
-    var a = document.createElement("a");
-    a.appendChild(document.createTextNode("Productos"));
-    li.appendChild(a);
-    li.addEventListener("click",productTabPopulate);
-    ul.appendChild(li);
+    var li = $("<li></li>");
+    var a = $("<a></a>").text("Productos");
+    li.append(a);
+    li.click(productTabPopulate);
+    ul.append(li);
 
-    var li = document.createElement("li");
-    var a = document.createElement("a");
-    a.appendChild(document.createTextNode("Tiendas"));
-    li.appendChild(a);
-    li.addEventListener("click",shopTabPopulate);
-    ul.appendChild(li);
+    var li = $("<li></li>");
+    var a = $("<a></a>");
+    a.text("Tiendas");
+    li.append(a);
+    li.click(shopTabPopulate);
+    ul.append(li);
 
-    var li = document.createElement("li");
-    var a = document.createElement("a");
-    a.appendChild(document.createTextNode("Categorias"));
-    li.appendChild(a);
-    li.addEventListener("click",categoryTabPopulate);
-    ul.appendChild(li);
+    var li = $("<li></li>");
+    var a = $("<a></a>");
+    a.text("Categorias");
+    li.append(a);
+    li.click(categoryTabPopulate);
+    ul.append(li);
 }
 
 //Funciones de creacion de los distintos formularios
 
 function showTiendasSelect(){
     var store=  StoreHouse.getInstance();
-    var parentNode = document.getElementById("selectContainer");
+    var parentNode = $("#selectContainer");
     
     var iterableShop = store.shops;
-    parentNode.appendChild(addSelect("Tiendas", iterableShop));
+    parentNode.append(addSelect("Tiendas", iterableShop));
 
-    var tiendas = document.getElementById("Tiendas");
-    tiendas.setAttribute("onchange", "changeTableProdByShop()");
+    var tiendas = $("#Tiendas").attr("onchange", "changeTableProdByShop()");
 }
 
 function showTableProduct(shop){
-    var store=  StoreHouse.getInstance();
-    var parentNode = document.getElementById("tableContainer");
+    var store = StoreHouse.getInstance();
+    var parentNode = $("#tableContainer");
     if(shop === 'undefined' || shop == null){
         var iterableProd = store.products;
         shop=store.defaultShop;
@@ -130,26 +117,25 @@ function showTableProduct(shop){
         var iterableProd = store.getShopProducts(shop);
     }
 
-    var table = document.createElement("table");
-    table.setAttribute("id", "Productos");
-    table.setAttribute("class", "table table-bordered tableCrud");
-    parentNode.appendChild(table);
+    var table = $("<table></table>").attr("id", "Productos");
+    table.attr("class", "table table-bordered tableCrud");
+    parentNode.append(table);
 
     //Creamos la cabecera de la tabla
-    var thead = document.createElement("thead");
-    table.appendChild(thead);
-    var tr = document.createElement("tr");
-    thead.appendChild(tr);
+    var thead = $("<thead></thead>");
+    table.append(thead);
+    var tr = $("<tr></tr>");
+    thead.append(tr);
 
-    tr.appendChild(createTableElem("th","Nombre", "class", "tdName"));
-    tr.appendChild(createTableElem("th","Descripcion", "class", "tdDesc"));
-    tr.appendChild(createTableElem("th","Precio", "class", "tdPrice"));
-    tr.appendChild(createTableElem("th","Categoria", "class", "tdCategory"));
-    tr.appendChild(createTableElem("th","Accion", "class", "tdButton"));
+    tr.append(createTableElem("<th></th>","Nombre", "class", "tdName"));
+    tr.append(createTableElem("<th></th>","Descripcion", "class", "tdDesc"));
+    tr.append(createTableElem("<th></th>","Precio", "class", "tdPrice"));
+    tr.append(createTableElem("<th></th>","Categoria", "class", "tdCategory"));
+    tr.append(createTableElem("<th></th>","Accion", "class", "tdButton"));
 
     //Creamos el cuerpo de la tabla
-    var tbody = document.createElement("tbody");
-    table.appendChild(tbody);
+    var tbody = $("<tbody></tbody>");
+    table.append(tbody);
 
     var items = iterableProd.next();
 
@@ -170,36 +156,27 @@ function showTableProduct(shop){
                 cats = iterableCat.next();
             }
 
-        var tr = document.createElement("tr");
-        tbody.appendChild(tr);
+        var tr = $("<tr></tr>");
+        tbody.append(tr);
 
-        tr.appendChild(createTableElem("td",item.name, "class", "tdName"));
-        var descDiv= document.createElement("div");
-        descDiv.setAttribute("class", "divDesc");
-        descDiv.appendChild(document.createTextNode(item.description));
+        tr.append(createTableElem("<td></td>",item.name, "class", "tdName"));
+        var descDiv= $("<div></div>").attr("class", "divDesc").text(item.description);
 
-        var tdDes= document.createElement("td");
-        tdDes.setAttribute("class", "tdDesc");
-        tdDes.appendChild(descDiv);
+        var tdDes= $("<td></td>").attr("class", "tdDesc");
+        tdDes.append(descDiv);
 
-        tr.appendChild(tdDes);
-        tr.appendChild(createTableElem("td",item.price, "class", "tdPrice"));
-        tr.appendChild(createTableElem("td",catTotal, "class", "tdCategory"));
-        var tdButton = document.createElement("td");
-        tdButton.setAttribute("class", "tdButton");
-        tr.appendChild(tdButton);
+        tr.append(tdDes);
+        tr.append(createTableElem("<td></td>",item.price, "class", "tdPrice"));
+        tr.append(createTableElem("<td></td>",catTotal, "class", "tdCategory"));
+        var tdButton = $("<td></td>").attr("class", "tdButton");
+        tr.append(tdButton);
 
-        tdButton.appendChild(createButton(createFunctionEditProductForm(item, stock, shop),"Editar"));
-
-        /*var remove = document.createElement("button");
-        remove.setAttribute("onclick", "editProduct();");
-        remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);*/
+        tdButton.append(createButton(createFunctionEditProductForm(item, stock, shop),"Editar"));
 
 		items = iterableProd.next();
 	}
 
-    parentNode.appendChild(createButton(productForm, "Añadir Producto"));
+    parentNode.append(createButton(productForm, "Añadir Producto"));
 }
 
 function showTableShop(){
@@ -207,27 +184,26 @@ function showTableShop(){
 
     var iterableShop = store.shops;
 
-    var parentNode = document.getElementById("tableContainer");
-    var table = document.createElement("table");
-    table.setAttribute("id", "Tiendas");
-    table.setAttribute("class", "table table-bordered tableCrud");
-    parentNode.appendChild(table);
+    var parentNode = $("#tableContainer");
+    var table = $("<table></table>").attr("id", "Tiendas");
+    table.attr("class", "table table-bordered tableCrud");
+    parentNode.append(table);
 
     //Creamos la cabecera de la tabla
-    var thead = document.createElement("thead");
-    table.appendChild(thead);
-    var tr = document.createElement("tr");
-    thead.appendChild(tr);
+    var thead = $("<thead></thead>");
+    table.append(thead);
+    var tr = $("<tr></tr>");
+    thead.append(tr);
 
-    tr.appendChild(createTableElem("th","Nombre", "class", "tdName"));
-    tr.appendChild(createTableElem("th","Direccion", "class", "tdAddress"));
-    tr.appendChild(createTableElem("th","Telefono", "class", "tdTel"));
-    tr.appendChild(createTableElem("th","Coordenadas", "class", "tdCoords"));
-    tr.appendChild(createTableElem("th","Accion", "class", "tdButton"));
+    tr.append(createTableElem("<th></th>","Nombre", "class", "tdName"));
+    tr.append(createTableElem("<th></th>","Direccion", "class", "tdAddress"));
+    tr.append(createTableElem("<th></th>","Telefono", "class", "tdTel"));
+    tr.append(createTableElem("<th></th>","Coordenadas", "class", "tdCoords"));
+    tr.append(createTableElem("<th></th>","Accion", "class", "tdButton"));
 
     //Creamos el cuerpo de la tabla
-    var tbody = document.createElement("tbody");
-    table.appendChild(tbody);
+    var tbody = $("<tbody></tbody>");
+    table.append(tbody);
 
     var items = iterableShop.next();
    
@@ -238,31 +214,24 @@ function showTableShop(){
             
         }
         
-        var tr = document.createElement("tr");
-        tbody.appendChild(tr);
+        var tr = $("<tr></tr>");
+        tbody.append(tr);
 
-        tr.appendChild(createTableElem("td",item.name, "class", "tdName"));
-        tr.appendChild(createTableElem("td",item.address, "class", "tdAddress"));
-        tr.appendChild(createTableElem("td",item.tel, "class", "tdTel"));
-        tr.appendChild(createTableElem("td",coords, "class", "tdCoords"));
-        var tdButton = document.createElement("td");
-        tdButton.setAttribute("class", "tdButton");
-        tr.appendChild(tdButton);
+        tr.append(createTableElem("<td></td>",item.name, "class", "tdName"));
+        tr.append(createTableElem("<td></td>",item.address, "class", "tdAddress"));
+        tr.append(createTableElem("<td></td>",item.tel, "class", "tdTel"));
+        tr.append(createTableElem("<td></td>",coords, "class", "tdCoords"));
+        var tdButton = $("<td></td>").attr("class", "tdButton");
+        tr.append(tdButton);
         
-        tdButton.appendChild(createButton(createFunctionEditShopForm(item),"Editar"));
-
-        /*var remove = document.createElement("button");
-        remove.setAttribute("onclick", "editProduct();");
-        remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);*/
+        tdButton.append(createButton(createFunctionEditShopForm(item),"Editar"));
 
 		items = iterableShop.next();
 	}
 
-    var add = document.createElement("button");
-    add.setAttribute("onclick", "shopForm();");
-    add.appendChild(document.createTextNode("Añadir Tienda"));
-    parentNode.appendChild(add);   
+    var add = $("<button></button>").attr("onclick", "shopForm();");
+    add.text("Añadir Tienda");
+    parentNode.append(add);   
 }
 
 function showTableCategory(){
@@ -270,65 +239,59 @@ function showTableCategory(){
 
     var iterableCategory = store.categories;
 
-    var parentNode = document.getElementById("tableContainer");
-    var table = document.createElement("table");
-    table.setAttribute("id", "Categorias");
-    table.setAttribute("class", "table table-bordered tableCrud");
-    parentNode.appendChild(table);
+    var parentNode = $("#tableContainer");
+    var table = $("<table></table>");
+    table.attr("id", "Categorias");
+    table.attr("class", "table table-bordered tableCrud");
+    parentNode.append(table);
 
     //Creamos la cabecera de la tabla
-    var thead = document.createElement("thead");
-    table.appendChild(thead);
-    var tr = document.createElement("tr");
-    thead.appendChild(tr);
+    var thead = $("<thead></thead>");
+    table.append(thead);
+    var tr = $("<tr></tr>");
+    thead.append(tr);
 
-    tr.appendChild(createTableElem("th","Nombre", "class", "tdTitle"));
-    tr.appendChild(createTableElem("th","Descripcion", "class", "tdCatDesc"));
-    tr.appendChild(createTableElem("th","Accion", "class", "tdButton"));
+    tr.append(createTableElem("<th></th>","Nombre", "class", "tdTitle"));
+    tr.append(createTableElem("<th></th>","Descripcion", "class", "tdCatDesc"));
+    tr.append(createTableElem("<th></th>","Accion", "class", "tdButton"));
     
     //Creamos el cuerpo de la tabla
-    var tbody = document.createElement("tbody");
-    table.appendChild(tbody);
+    var tbody = $("<tbody></tbody>");
+    table.append(tbody);
 
     var items = iterableCategory.next();
    
     while(!items.done){
         var item = items.value;
 
-        var tr = document.createElement("tr");
-        tbody.appendChild(tr);
+        var tr = $("<tr></tr>");
+        tbody.append(tr);
 
-        tr.appendChild(createTableElem("td",item.title, "class", "tdTitle"));
-        tr.appendChild(createTableElem("td",item.description, "class", "tdCatDesc"));
+        tr.append(createTableElem("<td></td>",item.title, "class", "tdTitle"));
+        tr.append(createTableElem("<td></td>",item.description, "class", "tdCatDesc"));
 
-        var tdButton = document.createElement("td");
-        tdButton.setAttribute("class", "tdButton");
-        tr.appendChild(tdButton);
+        var tdButton = $("<td></td>");
+        tdButton.attr("class", "tdButton");
+        tr.append(tdButton);
         
-        var edit = document.createElement("button");
-        edit.addEventListener("click",createFunctionEditCategoryForm(item));
-        edit.appendChild(document.createTextNode("Editar"));
-        tdButton.appendChild(edit);
-
-       /* var remove = document.createElement("button");
-        remove.setAttribute("onclick", "editProduct();");
-        remove.appendChild(document.createTextNode("Eliminar"));
-        tdButton.appendChild(remove);*/
+        var edit = $("<button></button>");
+        edit.click(createFunctionEditCategoryForm(item));
+        edit.text("Editar");
+        tdButton.append(edit);
 
 		items = iterableCategory.next();
 	}
 
-    var add = document.createElement("button");
-    add.setAttribute("onclick", "categoryForm();");
-    add.appendChild(document.createTextNode("Añadir Categoria"));
-    parentNode.appendChild(add); 
+    var add = $("<button></button>").attr("onclick", "categoryForm();");
+    add.text("Añadir Categoria");
+    parentNode.append(add); 
 }
 
 function createTableElem(elem,name,attribute, value){
-    var element = document.createElement(elem);
-    element.appendChild(document.createTextNode(name));
+    var element = $(elem);
+    element.text(name);
     if(attribute !="" && value !=""){
-        element.setAttribute(attribute, value);
+        element.attr(attribute, value);
     }
     return element;
 }
@@ -337,93 +300,85 @@ function createTableElem(elem,name,attribute, value){
 
 function changeTableProdByShop(){
     var store=  StoreHouse.getInstance();
-    var shopList = document.getElementById("Tiendas");
+    var shopList = $("#Tiendas");
     
     var shopSelected = shopList.options[shopList.selectedIndex].value;
 
     var shop = store.getShopByCif(shopSelected);
-    var parentNode = document.getElementById("tableContainer");
-    while(parentNode.hasChildNodes()){
-		parentNode.removeChild(parentNode.firstChild);
-    }
+    $("#tableContainer").empty();
     showTableProduct(shop);
 }
 
 function productForm(parentNode){
-    var parentNode = document.getElementById("formContainer");
-    if(parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(parentNode.children().length >0){
         return;
     }
     var store=  StoreHouse.getInstance();
-    var form = document.createElement("form");
-    form.setAttribute("id", "productForm");
-    form.setAttribute("action", "#");
-    parentNode.appendChild(form);
+    var form = $("<form></form>").attr("id", "productForm");
+    form.attr("action", "#");
+    parentNode.append(form);
 
-    var fieldset = document.createElement("fieldset");
-    form.appendChild(fieldset);
+    var fieldset = $("<fieldset></fieldset>");
+    form.append(fieldset);
 
-    var legend = document.createElement("legend");
-    legend.appendChild(document.createTextNode("Añadir Producto"));
-    fieldset.appendChild(legend);
+    var legend = $("<legend></legend>");
+    legend.text("Añadir Producto");
+    fieldset.append(legend);
 
     //Campo oculto para el id del producto
-    var idInput = document.createElement("input");
-    idInput.setAttribute("type", "hidden");
-    idInput.setAttribute("id","productId");
-    fieldset.appendChild(idInput);
+    var idInput = $("<input>").attr("type", "hidden");
+    idInput.attr("id","productId");
+    fieldset.append(idInput);
 
-    var shopCif = document.createElement("input");
-    shopCif.setAttribute("type", "hidden");
-    shopCif.setAttribute("id","shopCif");
-    fieldset.appendChild(shopCif);
+    var shopCif = $("<input>").attr("type", "hidden");
+    shopCif.attr("id","shopCif");
+    fieldset.append(shopCif);
 
-    fieldset.appendChild(addInput("text","Nombre"));
-    fieldset.appendChild(addInput("text","Precio"));
-    fieldset.appendChild(addInput("text","Stock"));
-    fieldset.appendChild(addTextarea("Descripcion"));
+    fieldset.append(addInput("text","Nombre"));
+    fieldset.append(addInput("text","Precio"));
+    fieldset.append(addInput("text","Stock"));
+    fieldset.append(addTextarea("Descripcion"));
 
     var iterableCat = store.categories;
-    fieldset.appendChild(addSelect("Categorias", iterableCat));
+    fieldset.append(addSelect("Categorias", iterableCat));
 
-    fieldset.appendChild(createButton(insertProduct,"Añadir"));
-    fieldset.appendChild(createButton(updateProduct,"Modificar"));
-    fieldset.appendChild(createButton(deleteProduct,"Eliminar"));
+    fieldset.append(createButton(insertProduct,"Añadir"));
+    fieldset.append(createButton(updateProduct,"Modificar"));
+    fieldset.append(createButton(deleteProduct,"Eliminar"));
 
 }
 
 function shopForm(shop){
-    var parentNode = document.getElementById("formContainer");
-    if(parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(parentNode.children().length >0){
         return;
     }
     var store=  StoreHouse.getInstance();
-    var form = document.createElement("form");
-    form.setAttribute("id", "shopForm");
-    form.setAttribute("action", "#");
-    parentNode.appendChild(form);
+    var form = $("<form></form>").attr("id", "shopForm");
+    form.attr("action", "#");
+    parentNode.append(form);
 
-    var fieldset = document.createElement("fieldset");
-    form.appendChild(fieldset);
+    var fieldset = $("<fieldset></fieldset>");
+    form.append(fieldset);
 
-    var legend = document.createElement("legend");
-    legend.appendChild(document.createTextNode("Añadir Tienda"));
-    fieldset.appendChild(legend);
+    var legend = $("<legend></legend>");
+    legend.text("Añadir Tienda");
+    fieldset.append(legend);
 
-    fieldset.appendChild(addInput("text","shopCif"));
-    fieldset.appendChild(addInput("text","Nombre"));
-    fieldset.appendChild(addInput("text","Direccion"));
-    fieldset.appendChild(addInput("text","Telefono"));
+    fieldset.append(addInput("text","shopCif"));
+    fieldset.append(addInput("text","Nombre"));
+    fieldset.append(addInput("text","Direccion"));
+    fieldset.append(addInput("text","Telefono"));
 
-    var mapDiv = document.createElement("div");
-	mapDiv.setAttribute("id","googleMapForm");
-	mapDiv.setAttribute("style","width:50%;height:400px;");
-    fieldset.appendChild(mapDiv);
+    var mapDiv = $("<div></div>").attr("id","googleMapForm");
+	mapDiv.attr("style","width:50%;height:400px;");
+    fieldset.append(mapDiv);
     mapForm(shop);
     
-    fieldset.appendChild(createButton(insertShop,"Añadir"));
-    fieldset.appendChild(createButton(updateShop,"Modificar"));
-    fieldset.appendChild(createButton(deleteShop,"Eliminar"));
+    fieldset.append(createButton(insertShop,"Añadir"));
+    fieldset.append(createButton(updateShop,"Modificar"));
+    fieldset.append(createButton(deleteShop,"Eliminar"));
 }
 
 var lat;
@@ -445,7 +400,7 @@ function mapForm(shop){
         var mapOptions = {center: myCenter, zoom: 15};
         var map = new google.maps.Map(mapCanvas, mapOptions);
       
-           if(shop.coords != undefined){
+           if(shop != undefined && shop.coords != undefined){
             var contentString = shop.name;
             var mark = new google.maps.LatLng(parseFloat(shop.coords.latitude),parseFloat(shop.coords.longitude));
            }else{
@@ -471,115 +426,95 @@ function mapForm(shop){
   
 
 function categoryForm(){
-    var parentNode = document.getElementById("formContainer");
-    if(parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(parentNode.children().length >0){
         return;
     }
     var store=  StoreHouse.getInstance();
-    var form = document.createElement("form");
-    form.setAttribute("id", "categoryForm");
-    form.setAttribute("action", "#");
-    parentNode.appendChild(form);
+    var form = $("<form></form>");
+    form.attr("id", "categoryForm");
+    form.attr("action", "#");
+    parentNode.append(form);
 
-    var fieldset = document.createElement("fieldset");
-    form.appendChild(fieldset);
+    var fieldset = $("<fieldset></fieldset>");
+    form.append(fieldset);
 
-    var legend = document.createElement("legend");
-    legend.appendChild(document.createTextNode("Añadir Categoria"));
-    fieldset.appendChild(legend);
+    var legend = $("<legend></legend>");
+    legend.text("Añadir Categoria");
+    fieldset.append(legend);
 
-    var categoryOriginalName = document.createElement("input");
-    categoryOriginalName.setAttribute("type", "hidden");
-    categoryOriginalName.setAttribute("id","catOriginName");
-    fieldset.appendChild(categoryOriginalName);
+    var categoryOriginalName = $("<input>");
+    categoryOriginalName.attr("type", "hidden");
+    categoryOriginalName.attr("id","catOriginName");
+    fieldset.append(categoryOriginalName);
 
-    fieldset.appendChild(addInput("text","Nombre"));
-    fieldset.appendChild(addInput("text","Descripcion"));
+    fieldset.append(addInput("text","Nombre"));
+    fieldset.append(addInput("text","Descripcion"));
 
-    fieldset.appendChild(createButton(insertCategory,"Añadir"));
-    fieldset.appendChild(createButton(updateCategory,"Modificar"));
-    fieldset.appendChild(createButton(deleteCategory,"Eliminar"));
+    fieldset.append(createButton(insertCategory,"Añadir"));
+    fieldset.append(createButton(updateCategory,"Modificar"));
+    fieldset.append(createButton(deleteCategory,"Eliminar"));
 }
 
 function createButton( onClickFunc, text){
-    var button = document.createElement("button");
-    button.setAttribute("type","button");
-    button.addEventListener("click",onClickFunc);
-    button.appendChild(document.createTextNode(text));
+    var button = $("<button></button>");
+    button.attr("type","button");
+    button.click(onClickFunc);
+    button.text(text);
     return button;
 }
 
 function editProductForm(prod, stockVal, shop){
     
-    var parentNode = document.getElementById("formContainer");
-    if(!parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(!(parentNode.children().length >0)){
         productForm();
     }
 
-    var form = document.getElementById("productForm");
    
-    var id = form.elements.namedItem("productId");
-    var cif = form.elements.namedItem("shopCif");
-    var name = form.elements.namedItem("Nombre");
-    var price = form.elements.namedItem("Precio");
-    var stock = form.elements.namedItem("Stock");
-    var desc = form.elements.namedItem("Descripcion");
-    
-    id.value = prod.serialNumber;
-    cif.value = shop.cif;
-    name.value = prod.name;
-    price.value = prod.price;
-    stock.value = stockVal;
-    desc.value = prod.description;
+    $("#productId").val(prod.serialNumber);
+    $("#shopCif").val(shop.cif);
+    $("#Nombre").val(prod.name);
+    $("#Precio").val(prod.price);
+    $("#Stock").val(stockVal);
+    $("#Descripcion").val(prod.description);
+ 
 }
 
 function editShopForm(shop){
-    var parentNode = document.getElementById("formContainer");
-    if(!parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(!(parentNode.children().length >0)){
         shopForm(shop);
     }else{
         clearFormDiv();
         shopForm(shop);
     }
 
-    var form = document.getElementById("shopForm");
-    var cif = form.elements.namedItem("shopCif");
-    var name = form.elements.namedItem("Nombre");
-    var address = form.elements.namedItem("Direccion");
-    var tel = form.elements.namedItem("Telefono");
-   // var coord = form.elements.namedItem("Coordenadas");
-   // var coord = new Coords(lat,lng);
-    cif.value = shop.cif;
-    name.value = shop.name;
-    address.value = shop.address;
-    tel.value = shop.tel;
-    //coord.value = shop.coords;
+
+    $("#shopCif").val(shop.cif);
+    $("#Nombre").val(shop.name);
+    $("#Direccion").val(shop.address);
+    $("#Telefono").val(shop.tel);
 }
 
 function editCategoryForm(category){
-    var parentNode = document.getElementById("formContainer");
-    if(!parentNode.hasChildNodes()){
+    var parentNode = $("#formContainer");
+    if(!(parentNode.children().length >0)){
         categoryForm(category);
     }
 
-    var form = document.getElementById("categoryForm");
-    var catOriginName = form.elements.namedItem("catOriginName");
-    var name = form.elements.namedItem("Nombre");
-    var desc = form.elements.namedItem("Descripcion");
- 
-    catOriginName.value = category.title;
-    name.value = category.title;
-    desc.value = category.description;
+    $("#catOriginName").val(category.title);
+    $("#Nombre").val(category.title);
+    $("#Descripcion").val(category.description);
 }
 
 function insertProduct(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("productForm");
 
-    var name = form.elements.namedItem("Nombre").value;
-    var price = form.elements.namedItem("Precio").value;
-    var desc = form.elements.namedItem("Descripcion").value;
-    var cat = form.elements.namedItem("Categorias").value;
+    var name = $("#Nombre").val();
+    var price = $("#Precio").val();
+    var desc = $("#Descripcion").val();
+    var cat = $("#Categorias").val();
     var cat2 = getCat(cat);
 
     var prod = new Smartphone(name, price, desc);
@@ -590,13 +525,11 @@ function insertProduct(){
 
 function insertShop(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("shopForm");
-
-    var cif = form.elements.namedItem("shopCif").value;
-    var name = form.elements.namedItem("Nombre").value;
-    var address = form.elements.namedItem("Direccion").value;
-    var tel = form.elements.namedItem("Telefono").value;
-   // var coord = form.elements.namedItem("Coordenadas").value;
+    
+    var cif = $("#shopCif").val();
+    var name = $("#Nombre").val();
+    var address = $("#Direccion").val();
+    var tel = $("#Telefono").val();
    var coords = new Coords(lat,lng);
     var shop = new Shop(cif,name, address, tel, coords);
     
@@ -606,10 +539,9 @@ function insertShop(){
 
 function insertCategory(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("categoryForm");
-
-    var name = form.elements.namedItem("Nombre").value;
-    var desc = form.elements.namedItem("Descripcion").value;
+   
+    var name = $("#Nombre").val();
+    var desc = $("#Descripcion").val();
 
     var cat = new Category(name,desc);
     
@@ -620,17 +552,17 @@ function insertCategory(){
 
 function updateProduct(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("productForm");
-    var prodId = form.elements.namedItem("productId").value;
+   
+    var prodId = $("#productId").val();
     var prod = store.getProdById(parseInt(prodId));
-    var shopCif = form.elements.namedItem("shopCif").value;
+    var shopCif = $("#shopCif").val();
     var shop = store.getShopByCif(shopCif);
 
-    var name = form.elements.namedItem("Nombre").value;
-    var price = form.elements.namedItem("Precio").value;
-    var stockString = form.elements.namedItem("Stock").value;
+    var name = $("#Nombre").val();
+    var price = $("#Precio").val();
+    var stockString = $("#Stock").val();
     var stock = parseInt(stockString);
-    var desc = form.elements.namedItem("Descripcion").value;
+    var desc = $("#Descripcion").val();
     
     prod.name = name;
     prod.price = price;
@@ -644,20 +576,18 @@ function updateProduct(){
 
 function updateShop(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("shopForm");
-    var shopCif = form.elements.namedItem("shopCif").value;
+  
+    var shopCif = $("#shopCif").val();
     var shop = store.getShopByCif(shopCif);
 
-    var name = form.elements.namedItem("Nombre").value;
-    var address = form.elements.namedItem("Direccion").value;
-    var tel = form.elements.namedItem("Telefono").value;
+    var name = $("#Nombre").val();
+    var address = $("#Direccion").val();
+    var tel = $("#Telefono").val();
     var coords = new Coords(lat,lng);
     
     shop.name = name;
     shop.address = address;
     shop.tel = tel;
-    //var coordArray = coords.split(',');
-   // var coordObj = new Coords(coordArray[0], coordArray[1]);
     shop.coords = coords;
 
     updateItem("shops",shop.getObject(), shopCif);
@@ -667,12 +597,12 @@ function updateShop(){
 
 function updateCategory(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("categoryForm");
-    var originName = form.elements.namedItem("catOriginName").value;
+    
+    var originName = $("#catOriginName").val();
     var category = store.getCategoryByTitle(originName);
 
-    var name = form.elements.namedItem("Nombre").value;
-    var desc = form.elements.namedItem("Descripcion").value;
+    var name = $("#Nombre").val();
+    var desc = $("#Descripcion").val();
     category.title = name;
     category.description = desc;
 
@@ -683,8 +613,8 @@ function updateCategory(){
 
 function deleteProduct(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("productForm");
-    var prodId = form.elements.namedItem("productId").value;
+    var form = $("#productForm");
+    var prodId = $("#productId").val();
     var prod = store.getProdById(parseInt(prodId));
    
     store.removeProduct(prod);
@@ -696,8 +626,8 @@ function deleteProduct(){
 
 function deleteShop(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("shopForm");
-    var shopCif = form.elements.namedItem("shopCif").value;
+    var form = $("#shopForm");
+    var shopCif = $("#shopCif").val();
     var shop = store.getShopByCif(shopCif);
 
     store.removeShop(shop);
@@ -710,8 +640,8 @@ function deleteShop(){
 
 function deleteCategory(){
     var store=  StoreHouse.getInstance();
-    var form = document.getElementById("categoryForm");
-    var originName = form.elements.namedItem("catOriginName").value;
+    var form = $("#categoryForm");
+    var originName = $("#catOriginName").val();
     var category = store.getCategoryByTitle(originName);
 
     store.removeCategory(category);
@@ -726,77 +656,74 @@ function deleteCategory(){
 //Funciones de creacion de elementos genericos de formularios en el DOM
 
 function addInput(type, name, inputClass = "", disab = false){
-    var group = document.createElement("div");
-    group.setAttribute("class", "form-group");
+    var group = $("<div></div>").attr("class", "form-group");
   
-    var label = document.createElement("label");
-    label.setAttribute("for", name);
-    label.appendChild(document.createTextNode(name));
-    group.appendChild(label);
+    var label = $("<label></label>");
+    label.attr("for", name);
+    label.text(name);
+    group.append(label);
     
-    var input = document.createElement("input");
-    input.setAttribute("type", type);
-    input.setAttribute("id", name);
-    input.setAttribute("class", "form-control");
+    var input = $("<input>");
+    input.attr("type", type);
+    input.attr("id", name);
+    input.attr("class", "form-control");
     input.disabled = disab;
-    group.appendChild(input);
+    group.append(input);
 
     return group;
 }
 
 function addTextarea(name, disab=false){
-    var group = document.createElement("div");
-    group.setAttribute("class", "form-group");
+    var group = $("<div></div>").attr("class", "form-group");
 
-    var label = document.createElement("label");
-    label.setAttribute("for", name);
-    label.appendChild(document.createTextNode(name));
-    group.appendChild(label);
+    var label = $("<label></label>");
+    label.attr("for", name);
+    label.text(name);
+    group.append(label);
 
-    var input = document.createElement("textarea");
-    input.setAttribute("id", name);
-    input.setAttribute("class", "form-control");
+    var input = $("<textarea>");
+    input.attr("id", name);
+    input.attr("class", "form-control");
     input.disabled = disab;
-    group.appendChild(input);
+    group.append(input);
 
     return group;
 }
 
 function addSelect(name, iterable){
     var store=  StoreHouse.getInstance();
-    var group = document.createElement("div");
-    group.setAttribute("class", "form-group");
+    var group = $("<div></div>").attr("class", "form-group");
 
-    var label = document.createElement("label");
-    label.setAttribute("for", name);
-    label.appendChild(document.createTextNode(name));
-    group.appendChild(label);
+    var label = $("<label></label>");
+    label.attr("for", name);
+    label.text(name);
+    group.append(label);
 
-    var input = document.createElement("select");
-    input.setAttribute("id", name);
-    input.setAttribute("class", "form-control");
-    group.appendChild(input);
+    var input = $("<select></select>");
+    input.attr("id", name);
+    input.attr("class", "form-control");
+    group.append(input);
 
     var items = iterable.next();
 
     while(!items.done){
         var item = items.value;
         
-        var opt = document.createElement("option");
+        var opt = $("<option></option>");
         if(item instanceof Category){
-            opt.setAttribute("id", item.title);
-            opt.appendChild(document.createTextNode(item.title));
+            opt.attr("id", item.title);
+            opt.text(item.title);
         }
         else if(item instanceof Product){
-            opt.setAttribute("value", item.serialNumber);
-            opt.appendChild(document.createTextNode(item.name));
+            opt.attr("value", item.serialNumber);
+            opt.text(item.name);
         }
         else if(item instanceof Shop){
-            opt.setAttribute("value", item.cif);
-            opt.appendChild(document.createTextNode(item.name));
+            opt.attr("value", item.cif);
+            opt.text(item.name);
         }
 
-        input.appendChild(opt);
+        input.append(opt);
         
 		items = iterable.next();
 	}
@@ -843,22 +770,13 @@ function createFunctionEditCategoryForm(category){
 }
 
 function clearTabDiv(){
-	var tableDiv = document.getElementById("tableContainer");
-	while(tableDiv.hasChildNodes()){
-		tableDiv.removeChild(tableDiv.firstChild);
-	}
+	$("#tableContainer").empty();
 }
 
 function clearFormDiv(){
-	var formDiv = document.getElementById("formContainer");
-	while(formDiv.hasChildNodes()){
-		formDiv.removeChild(formDiv.firstChild);
-	}
+	$("#formContainer").empty();
 }
 
 function clearSelectDiv(){
-	var selectDiv = document.getElementById("selectContainer");
-	while(selectDiv.hasChildNodes()){
-		selectDiv.removeChild(selectDiv.firstChild);
-	}
+	$("#selectContainer").empty();
 }
