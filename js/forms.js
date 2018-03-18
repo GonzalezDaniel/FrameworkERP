@@ -233,14 +233,18 @@ function showTableShop(){
    
     while(!items.done){
         var item = items.value;
-
+        if(item.coords != undefined){
+            var coords = item.coords.latitude+","+item.coords.longitude;
+            
+        }
+        
         var tr = document.createElement("tr");
         tbody.appendChild(tr);
 
         tr.appendChild(createTableElem("td",item.name, "class", "tdName"));
         tr.appendChild(createTableElem("td",item.address, "class", "tdAddress"));
         tr.appendChild(createTableElem("td",item.tel, "class", "tdTel"));
-        tr.appendChild(createTableElem("td",item.coords, "class", "tdCoords"));
+        tr.appendChild(createTableElem("td",coords, "class", "tdCoords"));
         var tdButton = document.createElement("td");
         tdButton.setAttribute("class", "tdButton");
         tr.appendChild(tdButton);
@@ -388,7 +392,7 @@ function productForm(parentNode){
 
 }
 
-function shopForm(){
+function shopForm(shop){
     var parentNode = document.getElementById("formContainer");
     if(parentNode.hasChildNodes()){
         return;
@@ -410,12 +414,61 @@ function shopForm(){
     fieldset.appendChild(addInput("text","Nombre"));
     fieldset.appendChild(addInput("text","Direccion"));
     fieldset.appendChild(addInput("text","Telefono"));
-    fieldset.appendChild(addInput("text","Coordenadas"));
 
+    var mapDiv = document.createElement("div");
+	mapDiv.setAttribute("id","googleMapForm");
+	mapDiv.setAttribute("style","width:50%;height:400px;");
+    fieldset.appendChild(mapDiv);
+    mapForm(shop);
+    
     fieldset.appendChild(createButton(insertShop,"Añadir"));
     fieldset.appendChild(createButton(updateShop,"Modificar"));
     fieldset.appendChild(createButton(deleteShop,"Eliminar"));
 }
+
+var lat;
+var lng;
+function mapForm(shop){
+    function getLocationForm() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPositionForm, showError);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+        
+    }
+    
+    function showPositionForm(position) {
+    
+        var myCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var mapCanvas = document.getElementById("googleMapForm");
+        var mapOptions = {center: myCenter, zoom: 15};
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+      
+           if(shop.coords != undefined){
+            var contentString = shop.name;
+            var mark = new google.maps.LatLng(parseFloat(shop.coords.latitude),parseFloat(shop.coords.longitude));
+           }else{
+            var contentString = " ";
+            var mark = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+           }
+               
+                var marker = new google.maps.Marker({position:mark,draggable:true});
+                marker.addListener('click', createFunctionInfowindow(map,marker, contentString));
+                
+                marker.setMap(map);
+                google.maps.event.addListener(marker, "position_changed", function() {
+
+                    lat = marker.getPosition().lat();
+                    lng = marker.getPosition().lng();
+                    
+});
+     
+    }
+
+    getLocationForm();
+}
+  
 
 function categoryForm(){
     var parentNode = document.getElementById("formContainer");
@@ -483,7 +536,10 @@ function editProductForm(prod, stockVal, shop){
 function editShopForm(shop){
     var parentNode = document.getElementById("formContainer");
     if(!parentNode.hasChildNodes()){
-        shopForm();
+        shopForm(shop);
+    }else{
+        clearFormDiv();
+        shopForm(shop);
     }
 
     var form = document.getElementById("shopForm");
@@ -491,13 +547,13 @@ function editShopForm(shop){
     var name = form.elements.namedItem("Nombre");
     var address = form.elements.namedItem("Direccion");
     var tel = form.elements.namedItem("Telefono");
-    var coord = form.elements.namedItem("Coordenadas");
- 
+   // var coord = form.elements.namedItem("Coordenadas");
+   // var coord = new Coords(lat,lng);
     cif.value = shop.cif;
     name.value = shop.name;
     address.value = shop.address;
     tel.value = shop.tel;
-    coord.value = shop.coords;
+    //coord.value = shop.coords;
 }
 
 function editCategoryForm(category){
@@ -540,9 +596,9 @@ function insertShop(){
     var name = form.elements.namedItem("Nombre").value;
     var address = form.elements.namedItem("Direccion").value;
     var tel = form.elements.namedItem("Telefono").value;
-    var coord = form.elements.namedItem("Coordenadas").value;
-
-    var shop = new Shop(cif,name, address, tel, coord);
+   // var coord = form.elements.namedItem("Coordenadas").value;
+   var coords = new Coords(lat,lng);
+    var shop = new Shop(cif,name, address, tel, coords);
     
     store.addShop(shop);
     shopTabPopulate();
@@ -595,11 +651,13 @@ function updateShop(){
     var name = form.elements.namedItem("Nombre").value;
     var address = form.elements.namedItem("Direccion").value;
     var tel = form.elements.namedItem("Telefono").value;
-    var coords = form.elements.namedItem("Coordenadas").value;
+    var coords = new Coords(lat,lng);
     
     shop.name = name;
     shop.address = address;
     shop.tel = tel;
+    //var coordArray = coords.split(',');
+   // var coordObj = new Coords(coordArray[0], coordArray[1]);
     shop.coords = coords;
 
     updateItem("shops",shop.getObject(), shopCif);

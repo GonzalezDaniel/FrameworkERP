@@ -222,7 +222,23 @@ function initPopulate(){
 		shops = iterableShops.next();
 
 	}
+
+	var mapDiv = document.createElement("div");
+	mapDiv.setAttribute("id","googleMap");
+	mapDiv.setAttribute("style","width:50%;height:400px;");
+	main.appendChild(mapDiv);
+	//setMap();
+
+	//creamos el script aqui en lugar de ponerlo en el html directamente por que, al cargar el script antes que el populate,
+	// da error al no estar creado el div que va a contener el mapa en ese momento
+	var mapScript = document.createElement("script");
+	mapScript.setAttribute("src","https://maps.googleapis.com/maps/api/js?key=AIzaSyB_wFijwSjP7b22C_aeX0ENSu86S-dS1oE&callback=getLocation");
+	document.body.appendChild(mapScript);
+
+
+
 }
+
 
 function shopPopulate(shop){
 	var store =  StoreHouse.getInstance();
@@ -256,6 +272,8 @@ function shopPopulate(shop){
 	var iterableCat = store.getCategoriesInShop(shop);
 	sideMenuTiendas(colMenu, iterableCat, "Categorias", shop);
 
+
+
 	var colContent = document.createElement("div");
 	colContent.setAttribute("id", "colDerecha");
 	colContent.setAttribute("class", "col-md-9");
@@ -284,12 +302,29 @@ function shopPopulate(shop){
 		rowDiv.appendChild(colDiv);
 
 		var thumbnailDiv = createThumbnail(thumbTitle,thumbText, thumbImg);
+		thumbnailDiv.setAttribute("id",prod.serialNumber);
+		thumbnailDiv.setAttribute("draggable","true");
+		thumbnailDiv.setAttribute("ondragstart","drag(event)");
+
 		colDiv.appendChild(thumbnailDiv);
 
 		thumbnailDiv.addEventListener("click",createFunctionShowProduct(prod, prods.valStock));
 		prods = iterableProd.next();
 
 	}
+
+	var user=getCookie("username");
+    var pass=getCookie("password");
+    if (user != "") {
+        var dragDiv = document.createElement("div");
+		dragDiv.setAttribute("id","dragDiv");
+		dragDiv.setAttribute("ondrop","drop(event)");
+		dragDiv.setAttribute("ondragover","allowDrop(event)");
+		
+		colMenu.appendChild(dragDiv);
+    } 
+	
+
 }
 
 function abrirVentana(prod, stock){
@@ -601,6 +636,7 @@ function createThumbnail(title, text, image){
 		var thumbnailDiv = document.createElement("div");
 		thumbnailDiv.setAttribute("class", "thumbnail thumb-custom");
 
+
 		var img = document.createElement("img");
 		img.setAttribute("src", image);
 		thumbnailDiv.appendChild(img);
@@ -624,6 +660,109 @@ function createThumbnail(title, text, image){
 
 		return thumbnailDiv;
 	}
+
+/*function myMap(){
+	
+		var mapProp= {
+			center:new google.maps.LatLng(32.722756, -102.773387),
+			zoom:5,
+		};
+		var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		
+}*/
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+	}
+	
+}
+
+function showPosition(position) {
+
+	var myCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	var mapCanvas = document.getElementById("googleMap");
+	var mapOptions = {center: myCenter, zoom: 15};
+	var map = new google.maps.Map(mapCanvas, mapOptions);
+	var store =  StoreHouse.getInstance();
+	var shops = store.shops;
+    var shop = shops.next();
+
+    while (shop.done !== true){
+		if(shop.value.coords!=undefined){
+			var contentString = shop.value.name;
+			
+			var mark = new google.maps.LatLng(parseFloat(shop.value.coords.latitude),parseFloat(shop.value.coords.longitude));
+			var marker = new google.maps.Marker({position:mark});
+			marker.addListener('click', createFunctionInfowindow(map,marker, contentString));
+			
+			marker.setMap(map);
+		
+		}
+        shop = shops.next();
+}
+}
+
+function infoWindow(map,marker,contentString){
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString
+	  });
+	  infowindow.open(map, marker);
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+
+
+function createFunctionInfowindow(map,marker,contentString){
+	return function(){
+		return infoWindow(map,marker,contentString);
+	}
+}
+
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+	var data = ev.dataTransfer.getData("text");
+	deleteProductDrop(data);
+    //ev.target.appendChild(document.getElementById(data));
+}
+
+function deleteProductDrop(prodId){
+    var store=  StoreHouse.getInstance();
+    var prod = store.getProdById(parseInt(prodId));
+   
+    store.removeProduct(prod);
+    
+    deleteItem("products",parseInt(prodId));
+
+}
+
 
 //window.onload = init;
 

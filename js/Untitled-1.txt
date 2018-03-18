@@ -1,0 +1,16 @@
+38.978852, -3.935443
+	
+Pccomponentes
+	undefined
+	undefined
+	38.979985, -3.932611
+	
+Ebay
+	undefined
+	undefined
+	38.982290, -3.934700
+	
+Amazon
+	undefined
+	undefined
+	38.980571, -3.935132

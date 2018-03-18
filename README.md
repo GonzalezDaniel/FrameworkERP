@@ -45,3 +45,6 @@ Versión 1.5.0
 Practica UT09 terminada. El fichero Json donde se guardan los datos para la carga del ERP se ha dividido en tres (products.json, shops.json, categories.json) a fin de mantener los datos organizados segun su tipo,
 facilitando asi posibles tareas de mantenimiento o gestion de errores en las practicas siguientes. El fichero que guarda los datos del usuario en el servidor se encuentra junto con estos en la carpeta json.
 Debido a la falta de tiempo, no se incluye el apartado de los workers, se intentará incluir mas adelante.
+
+Versión 1.6.0
+Practica UT10 terminada. Aunque se implemente la parte de drag & drop, tiene algunos errores, como por ejemplo, que el objeto solo se elimine si arrastras desde el cuerpo del thumbnail y no si se hace desde la imagen del mismo.

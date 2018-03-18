@@ -17,7 +17,7 @@ function startDB(){
 
       database.onsuccess = function(event) {
        console.log("Aceso a BD con exito");
-       setTimeout(createObjectsJson(),100);
+       createObjectsJson();
       // createObjects();
         //init();
         
@@ -95,6 +95,7 @@ function updateItem(store, item, itemKey){
   };
 
 }
+
 
 
 

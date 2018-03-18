@@ -193,13 +193,6 @@ function Coords(latitude, longitude){
 	if (!(this instanceof Coords)) 
 		throw new InvalidAccessConstructorException();
 
-	latitude = typeof latitude !== 'undefined' ? Number(latitude).valueOf() : 0;
-	if (Number.isNaN(latitude)  || latitude < -90 || latitude > 90) 
-		throw new InvalidValueException("latitude", latitude);
-	longitude = typeof longitude !== 'undefined' ? Number(longitude).valueOf() : 0;
-	if (Number.isNaN(longitude)  || longitude < -180 || longitude > 180) 
-		throw new InvalidValueException("longitude", longitude);
-
 	var _latitude = latitude;
 	var _longitude = longitude;
 
@@ -209,8 +202,7 @@ function Coords(latitude, longitude){
 		},
 		set:function(value){
 			value = typeof value !== 'undefined' ? Number(value).valueOf() : 0;
-			if (Number.isNaN(value)  || value < -90 || value > 90) 
-				throw new InvalidValueException("latitude", value);
+			
 			_latitude = value;
 		}		
 	});		
@@ -221,8 +213,7 @@ function Coords(latitude, longitude){
 		},
 		set:function(value){
 			value = typeof value !== 'undefined' ? Number(value).valueOf() : 0;
-			if (Number.isNaN(value)  || value < -180 || value > 180) 
-				throw new InvalidValueException("latitude", value);
+			
 			_longitude = value;
 		}		
 	});		
@@ -230,6 +221,12 @@ function Coords(latitude, longitude){
 }
 Coords.prototype = {};
 Coords.prototype.constructor = Coords;
+Coords.prototype.getObject = function(){
+	return{
+		latitude: this.latitude,
+		longitude: this.longitude
+	};
+}
 
 //Objeto Category
 
@@ -276,7 +273,7 @@ Category.prototype.getObject = function(){
 
 //Objeto Shop
 
-function Shop(cif, name, address, tel){
+function Shop(cif, name, address, tel, coords){
 	
 		if (!(this instanceof Shop)) 
 			throw new InvalidAccessConstructorException();
@@ -285,7 +282,7 @@ function Shop(cif, name, address, tel){
 		var _name = validate.empty(name,"name");	
 		var _address = address;
 		var _tel = tel;
-		var _coords = null;
+		var _coords = coords;
 
 		Object.defineProperty(this, "cif", {
 			get:function(){
@@ -306,6 +303,28 @@ function Shop(cif, name, address, tel){
 				value = typeof value !== "undefined" ? value : "";
 				if (value === "") {throw new EmptyValueException("description");}			
 				_name = value;
+			}		
+		});	
+
+		Object.defineProperty(this, "address", {
+			get:function(){
+				return _address;
+			},
+			set:function(value){
+				value = typeof value !== "undefined" ? value : "";
+				if (value === "") {throw new EmptyValueException("description");}			
+				_address = value;
+			}		
+		});	
+
+		Object.defineProperty(this, "tel", {
+			get:function(){
+				return _tel;
+			},
+			set:function(value){
+				value = typeof value !== "undefined" ? value : "";
+				if (value === "") {throw new EmptyValueException("description");}			
+				_tel = value;
 			}		
 		});	
 				
@@ -329,7 +348,7 @@ function Shop(cif, name, address, tel){
 			name: this.name,
 			address: this.address,
 			tel: this.tel,
-            coords: this.coords
+			coords: this.coords
 		};
 	}
 

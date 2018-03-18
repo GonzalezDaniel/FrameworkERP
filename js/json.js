@@ -1,13 +1,12 @@
 
+
 var catArray = [];
 var shopArray = [];
 var prodArray = [];
 function createObjectsJson(){
 
   loadCategories();
-  
-  ;
-  
+
 }
 
 function loadProducts() {
@@ -84,7 +83,7 @@ function createProds(arrayProd){
       
     }
 
-    
+    init();
 }
 
 function createCategories(arrayCat){
@@ -95,17 +94,19 @@ function createCategories(arrayCat){
     catArray.push(item);
     store.addCategory(item);
   }
-    loadShops();
+  loadShops();
 }
 
 function createShops(arrayShop){
   var store =  StoreHouse.getInstance();
   for(var i=0; i<arrayShop.length; i++){
-    var item = new Shop(arrayShop[i]["cif"],arrayShop[i]["name"]);
+    var coords = arrayShop[i]["coords"].split(',');
+    var cd = new Coords(coords[0],coords[1]);
+    var item = new Shop(arrayShop[i]["cif"],arrayShop[i]["name"],arrayShop[i]["address"],arrayShop[i]["tel"],cd );
     shopArray.push(item);
     store.addShop(item);
   }
-    loadProducts()
+  loadProducts();
 }
 
 function createProductsInShops(){
@@ -121,7 +122,6 @@ function createProductsInShops(){
       cont++;
     }
   }
-    setTimeout(init(),100);
 }
 
 
@@ -130,7 +130,6 @@ function sendUserObjects(){
   var products = store.products;
   var prod = products.next();
   var user = getCookie("username");
-  console.log(user);
   var items = "["; 
      while(!prod.done){
        items+=JSON.stringify(prod.value.getObject());
